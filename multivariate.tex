@@ -174,19 +174,35 @@
 \section{Independence and covariance}
 
 \begin{frame}{Independence and covariance}
-  the relation
+  For independent variables $z_1$ and $z_2$ the relation
+  \[
+  E\{g_1(z_1)g_2(z_2)\} = E\{g_1(z_1)\}E\{g_2(z_2)\}
+  \]
+  holds for any functions $g_1$ and $g_2$
+  (rigorously speaking: for any measurable functions), which implies that
+  indepandent variables are uncorreleted (take $g_1(z) = g_2(z) = z$).
 \end{frame}
 
 \section{Bayesian inference}
 
 \begin{frame}{Bayesian inference}
   Baye's rule
+  \[
+  p(\mathbf{s}|\mathbf{z}) =
+  \frac{p(\mathbf{z}|\mathbf{s})p_{\mathbf{s}}(\mathbf{s})}{\int p(\mathbf{z}|\mathbf{s})p_{\mathbf{s}}(\mathbf{s})ds}
+  \]
+  Or more rigorously WRITE HERE?
 \end{frame}
 
 \section{Non informative priors}
 
 \begin{frame}{Non informative priors}
   definition
+  \[
+  p(\mathbf{s}|\mathbf{z}) =
+  \frac{p(\mathbf{z}|\mathbf{s})c}{\int p(\mathbf{z}|\mathbf{s})cds} =
+  \frac{p(\mathbf{z}|\mathbf{s})}{\int p(\mathbf{z}|\mathbf{s})ds}
+  \]
 \end{frame}
 
 \section{Bayesian inference as a incremental learning process}
