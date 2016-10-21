@@ -66,42 +66,109 @@
 
 \begin{frame}{Random vectors}
   Random vector is...
+  \[ \mathbf{z} =  \begin{pmatrix} z_1 \\ z_2 \\ \vdots \\ z_n \end{pmatrix} \]
 \end{frame}
 
 \section{Probability density}
 
 \begin{frame}{Probability density}
   (Function, Examples)
+  \[ p_z(a) = \frac{p(\textnormal{$z$ is in $[a, a + \nu]$})}{\nu}\]
+  \[ p_{\mathbf{z}}(\mathbf{a}) =
+  \frac{p(\textnormal{$z_i$ is in $[a_i, a_i + \nu]$ for all $i$})}{\nu^n}\]
 \end{frame}
 
 \section{Marginal and joint probabilities}
 
 \begin{frame}{Marginal and joint probabilities}
-  (Definition, examples)
+  (Definition, examples)\\
+  Marginal:
+  \[ p_{z_1}(z_1) =  \int p(z_1, z_2)dz_2\]
+  or more rigorosly:
+  \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2\]
 \end{frame}
 
 \section{Conditional probabilities}
 
 \begin{frame}{Conditional probabilities}
   (continuous case, discrete case)
+  \[
+  p(z_2|z_1 = a) =
+  \frac{ p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}
+  \]
+  or more concisely:
+  \[
+  p(z_2|z_1 = a) =
+  \frac{ p_{\mathbf{z}}(a, z_2)}{p_{z_1}(a)} = \text{e.t.c.}
+  \]
+  for discrete case the integral is replaced by sum, that is
+  \[ P_{z_1}(z_1) = \sum_{z_2}P_{\mathbf{z}}(z_1, z_2)\]
 \end{frame}
 
 \section{Independence}
 
 \begin{frame}{Independence}
   definition
+  \[
+  p(z_2|z_1) = p(z_2) \text{for every $z_1$ and $z_2$}
+  \]
+  which implies that
+  \[
+  \frac{p(z_1, z_2)}{p(z_1)} = p(z_2) \ \text{or otherway around that} \ p(z_1, z_2) = p(z_1)p(z_2)
+  \]
+  for all $z_1$ and $z_2$S
 \end{frame}
 
 \section{Expectation}
 
 \begin{frame}{Expectation}
   (continuous, discrete (maybe otherway around would be more intuitive?))
+  \[
+  E\{\mathbf{z}\} = \int p_{\mathbf{z}}(\mathbf{z})\mathbf{z}d\mathbf{z}
+  \]
+  (write the components?)\\
+  its linear:
+  \[
+  E\{a\mathbf{z} + b\mathbf{z}\}  = aE\{\mathbf{z}\} + bE\{\mathbf{z}\}
+  \]
+  similarily for any matrix $\mathbf{M}$
+  \[
+  E\{\mathbf{Mz}\} = \mathbf{M}E\{\mathbf{z}\}
+  \]
 \end{frame}
 
-\section{Variance and covariance}
+\section{Variance, covariance and correlation}
 
-\begin{frame}{Variance and covariance}
+\begin{frame}{Variance, covariance and correlation}
   (dim = 1, covariance matrix)
+  \[
+  var(z_1)= E\{z_1^2\}-(E\{z_1\})^2 = E\{(z_1-E\{z_1\})^2\}
+  \]
+  covariance and correlation
+  \[
+  cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
+  \]
+  \[
+  corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}
+  \]
+
+\end{frame}
+
+\section{Covariance Matrix}
+
+\begin{frame}{Covariance Matrix}
+  \[
+  \mathbf{C}(\mathbf{z}) =
+  \begin{pmatrix}
+    cov(z_1, z_1) \ cov(z_1, z_2) \ldots cov(z_1, z_n) \\
+    cov(z_2, z_1) \ cov(z_2, z_2) \ldots cov(z_2, z_n) \\
+    \vdots \qquad \qquad \ddots \quad \vdots \\
+    cov(z_n, z_1) \ cov(z_n, z_2) \ldots cov(z_n, z_n)
+  \end{pmatrix}
+  \]
+  or more concisely:
+  \[ \mathbf{C}(\mathbf{z}) =
+  E\{\mathbf{zz}^T\} - E\{\mathbf{z}\} E\{\mathbf{z}\}^T\]
 \end{frame}
 
 \section{Independence and covariance}
@@ -131,7 +198,7 @@
 \section{Parameter estimation and likelihood}
 
 \begin{frame}{Parameter estimation and likelihood}
-  (statistical model, estimation, ilkelihood \& log-lkelihood)
+  (statistical model, estimation, likelihood \& log-likelihood)
 \end{frame}
 
 \section{Maximum likelihood and maximum posteriori}
