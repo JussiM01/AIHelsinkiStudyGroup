@@ -50,10 +50,19 @@
 %
 % \end{frame}
 
-\section{Overview}
+\section{Introduction}
 
-\begin{frame}{Overview}
-  This presentation is ..
+\begin{frame}{Introduction}
+  This presentation is a breef summary of some of the topics introduced in
+  chapter 4 of the book \textbf{Natural Image Statistics} (reference at
+  the last slide).
+
+  Since there won't be enough time to cover the whole chapter 4, I decide to go
+  trough the things that are needed for understanding the \emph{Baye's rule},
+  which I think is part of the core content in this chapter.
+
+  I will also introduce \emph{expectation} and \emph{variance} in these slides,
+  since they are needed in the exercises.
 \end{frame}
 
 \section{Random variables}
@@ -61,7 +70,7 @@
 \begin{frame}{Random variables}
  Discrete random variable is a variable which can have any value from some given
  range with some given probabilty. Example: outcome of throwing a dice. The outcome
- can have any value from 1 to 6, each with the probability 1/6.
+ can have any value from 1 to 6, each with the probability $\frac{1}{6}$.
 
  Continuos random variable is a variable which can have any value from some given
  continuous range of values, with some given probabilities for the value been in
@@ -71,11 +80,11 @@
 \section{Random vectors}
 
 \begin{frame}{Random vectors}
-  Random vector is a n-tuple of random variables. Each of these can be either
-  similar or different types of variables. More formaly:
+  Random vector is a $n$-tuple of random variables. Each of these can be either
+  similar or different types of variables. Formally:
   \[ \mathbf{z} =  \begin{pmatrix} z_1 \\ z_2 \\ \vdots \\ z_n \end{pmatrix} \]
   where $\mathbf{z}$ is the random vector and the random variables $z_i$ are
-  it's components.
+  its components.
 \end{frame}
 
 \section{Probability density}
@@ -131,70 +140,89 @@
 \section{Expectation}
 
 \begin{frame}{Expectation}
-  (continuous, discrete (maybe otherway around would be more intuitive?))
+  Expectation $E\{z\}$ of a random variable $z$ is a weighted average of the
+  outcomes which the variable can obtain, with the weights been the individual
+  propablities (or probability densities in continuous cases).
   \[
-  E\{\mathbf{z}\} = \int p_{\mathbf{z}}(\mathbf{z})\mathbf{z}d\mathbf{z}
+  \text{Discrete case:} \qquad
+  E\{z\} = \sum_{z} P_{z}(z)z
   \]
-  (write the components?)\\
-  its linear:
   \[
-  E\{a\mathbf{z} + b\mathbf{z}\}  = aE\{\mathbf{z}\} + bE\{\mathbf{z}\}
+  \text{Continuous case:} \qquad
+  E\{z\} = \int p_{z}(z)zdz
   \]
-  similarily for any matrix $\mathbf{M}$
+  The expectation can be also defined for random vectors component wise:
   \[
-  E\{\mathbf{Mz}\} = \mathbf{M}E\{\mathbf{z}\}
+  E\{\mathbf{z}\} =
+  \begin{pmatrix} E\{z_1\} \\ E\{z_2\} \\ \vdots \\ E\{z_n\} \end{pmatrix}
   \]
+  where $E\{z_i\}$ is defined as above with $z$ repleced by $z_i$ for all $i$.
+  % (write the components?)\\
+  % it is linear:
+  % \[
+  % E\{a\mathbf{z} + b\mathbf{z}\}  = aE\{\mathbf{z}\} + bE\{\mathbf{z}\}.
+  % \]
+  % Similarily, for any matrix $\mathbf{M}$
+  % \[
+  % E\{\mathbf{Mz}\} = \mathbf{M}E\{\mathbf{z}\}.
+  % \]
 \end{frame}
 
-\section{Variance, covariance and correlation}
+\section{Variance}
 
-\begin{frame}{Variance, covariance and correlation}
-  (dim = 1, covariance matrix)
+\begin{frame}{Variance}
+  Variance in some sense tells how close the probablity mass is concentrated
+  near the ecpectation value. Its defined as follows:
   \[
-  var(z_1)= E\{z_1^2\}-(E\{z_1\})^2 = E\{(z_1-E\{z_1\})^2\}
+  var(z)= E\{z^2\}-(E\{z\})^2.
   \]
-  covariance and correlation
+  Alternatively it can defined as
   \[
-  cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
+   var(z) = E\{(z-E\{z\})^2\}.
   \]
-  \[
-  corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}
-  \]
+  WRITE THIS IN A BETTER WAY!
+  % covariance and correlation
+  % \[
+  % cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
+  % \]
+  % \[
+  % corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}
+  % \]
 
 \end{frame}
 
-\section{Covariance Matrix}
+% \section{Covariance Matrix}
+%
+% \begin{frame}{Covariance Matrix}
+%   \[
+%   \mathbf{C}(\mathbf{z}) =
+%   \begin{pmatrix}
+%     cov(z_1, z_1) \ cov(z_1, z_2) \ldots cov(z_1, z_n) \\
+%     cov(z_2, z_1) \ cov(z_2, z_2) \ldots cov(z_2, z_n) \\
+%     \vdots \qquad \qquad \ddots \quad \vdots \\
+%     cov(z_n, z_1) \ cov(z_n, z_2) \ldots cov(z_n, z_n)
+%   \end{pmatrix}
+%   \]
+%   or more concisely:
+%   \[ \mathbf{C}(\mathbf{z}) =
+%   E\{\mathbf{zz}^T\} - E\{\mathbf{z}\} E\{\mathbf{z}\}^T\]
+% \end{frame}
+%
+% \section{Independence and covariance}
+%
+% \begin{frame}{Independence and covariance}
+%   For independent variables $z_1$ and $z_2$ the relation
+%   \[
+%   E\{g_1(z_1)g_2(z_2)\} = E\{g_1(z_1)\}E\{g_2(z_2)\}
+%   \]
+%   holds for any functions $g_1$ and $g_2$
+%   (rigorously speaking: for any measurable functions), which implies that
+%   indepandent variables are uncorreleted (take $g_1(z) = g_2(z) = z$).
+% \end{frame}
 
-\begin{frame}{Covariance Matrix}
-  \[
-  \mathbf{C}(\mathbf{z}) =
-  \begin{pmatrix}
-    cov(z_1, z_1) \ cov(z_1, z_2) \ldots cov(z_1, z_n) \\
-    cov(z_2, z_1) \ cov(z_2, z_2) \ldots cov(z_2, z_n) \\
-    \vdots \qquad \qquad \ddots \quad \vdots \\
-    cov(z_n, z_1) \ cov(z_n, z_2) \ldots cov(z_n, z_n)
-  \end{pmatrix}
-  \]
-  or more concisely:
-  \[ \mathbf{C}(\mathbf{z}) =
-  E\{\mathbf{zz}^T\} - E\{\mathbf{z}\} E\{\mathbf{z}\}^T\]
-\end{frame}
+\section{Baye's rule}
 
-\section{Independence and covariance}
-
-\begin{frame}{Independence and covariance}
-  For independent variables $z_1$ and $z_2$ the relation
-  \[
-  E\{g_1(z_1)g_2(z_2)\} = E\{g_1(z_1)\}E\{g_2(z_2)\}
-  \]
-  holds for any functions $g_1$ and $g_2$
-  (rigorously speaking: for any measurable functions), which implies that
-  indepandent variables are uncorreleted (take $g_1(z) = g_2(z) = z$).
-\end{frame}
-
-\section{Bayesian inference}
-
-\begin{frame}{Bayesian inference}
+\begin{frame}{Baye's rule}
   Baye's rule
   \[
   p(\mathbf{s}|\mathbf{z}) =
@@ -203,84 +231,97 @@
   Or more rigorously WRITE HERE?
 \end{frame}
 
-\section{Non informative priors}
+% \section{Non informative priors}
+%
+% \begin{frame}{Non informative priors}
+%   definition
+%   \[
+%   p(\mathbf{s}|\mathbf{z}) =
+%   \frac{p(\mathbf{z}|\mathbf{s})c}{\int p(\mathbf{z}|\mathbf{s})cds} =
+%   \frac{p(\mathbf{z}|\mathbf{s})}{\int p(\mathbf{z}|\mathbf{s})ds}
+%   \]
+% \end{frame}
+%
+% \section{Bayesian inference as a incremental learning process}
+%
+% \begin{frame}{Bayesian inference as a incremental learning process}
+%   Explanation
+% \end{frame}
+%
+% \section{Parameter estimation and likelihood}
+%
+% \begin{frame}{Parameter estimation and likelihood}
+%   (statistical model, estimation, likelihood \& log-likelihood)
+% \end{frame}
+%
+% \section{Maximum likelihood and maximum posteriori}
+%
+% \begin{frame}{Maximum likelihood and maximum posteriori}
+%   (definition, definition)
+% \end{frame}
+%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \section{Template examples}
+%
+% \begin{frame}{Template examples}
+%   Examples from the template on the next slides:
+% \end{frame}
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%% Some of the original default code below: %%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% \section{Some \LaTeX{} Examples}
+%
+% \subsection{Tables and Figures}
+%
+% \begin{frame}{Tables and Figures}
+%
+% \begin{itemize}
+% \item Use \texttt{tabular} for basic tables --- see Table~\ref{tab:widgets}, for example.
+% \item You can upload a figure (JPEG, PNG or PDF) using the files menu.
+% \item To include it in your document, use the \texttt{includegraphics} command (see the comment below in the source code).
+% \end{itemize}
+%
+% % Commands to include a figure:
+% %\begin{figure}
+% %\includegraphics[width=\textwidth]{your-figure's-file-name}
+% %\caption{\label{fig:your-figure}Caption goes here.}
+% %\end{figure}
+%
+% \begin{table}
+% \centering
+% \begin{tabular}{l|r}
+% Item & Quantity \\\hline
+% Widgets & 42 \\
+% Gadgets & 13
+% \end{tabular}
+% \caption{\label{tab:widgets}An example table.}
+% \end{table}
+%
+% \end{frame}
+%
+% \subsection{Mathematics}
+%
+% \begin{frame}{Readable Mathematics}
+%
+% Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
+% $$S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
+%       = \frac{1}{n}\sum_{i}^{n} X_i$$
+% denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
+%
+% \end{frame}
 
-\begin{frame}{Non informative priors}
-  definition
-  \[
-  p(\mathbf{s}|\mathbf{z}) =
-  \frac{p(\mathbf{z}|\mathbf{s})c}{\int p(\mathbf{z}|\mathbf{s})cds} =
-  \frac{p(\mathbf{z}|\mathbf{s})}{\int p(\mathbf{z}|\mathbf{s})ds}
-  \]
-\end{frame}
+\section{References}
 
-\section{Bayesian inference as a incremental learning process}
-
-\begin{frame}{Bayesian inference as a incremental learning process}
-  Explanation
-\end{frame}
-
-\section{Parameter estimation and likelihood}
-
-\begin{frame}{Parameter estimation and likelihood}
-  (statistical model, estimation, likelihood \& log-likelihood)
-\end{frame}
-
-\section{Maximum likelihood and maximum posteriori}
-
-\begin{frame}{Maximum likelihood and maximum posteriori}
-  (definition, definition)
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Template examples}
-
-\begin{frame}{Template examples}
-  Examples from the template on the next slides:
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%% Some of the original default code below: %%%%%%%%%%%%%%%%%%%%%%%%%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Some \LaTeX{} Examples}
-
-\subsection{Tables and Figures}
-
-\begin{frame}{Tables and Figures}
-
-\begin{itemize}
-\item Use \texttt{tabular} for basic tables --- see Table~\ref{tab:widgets}, for example.
-\item You can upload a figure (JPEG, PNG or PDF) using the files menu.
-\item To include it in your document, use the \texttt{includegraphics} command (see the comment below in the source code).
-\end{itemize}
-
-% Commands to include a figure:
-%\begin{figure}
-%\includegraphics[width=\textwidth]{your-figure's-file-name}
-%\caption{\label{fig:your-figure}Caption goes here.}
-%\end{figure}
-
-\begin{table}
-\centering
-\begin{tabular}{l|r}
-Item & Quantity \\\hline
-Widgets & 42 \\
-Gadgets & 13
-\end{tabular}
-\caption{\label{tab:widgets}An example table.}
-\end{table}
-
-\end{frame}
-
-\subsection{Mathematics}
-
-\begin{frame}{Readable Mathematics}
-
-Let $X_1, X_2, \ldots, X_n$ be a sequence of independent and identically distributed random variables with $\text{E}[X_i] = \mu$ and $\text{Var}[X_i] = \sigma^2 < \infty$, and let
-$$S_n = \frac{X_1 + X_2 + \cdots + X_n}{n}
-      = \frac{1}{n}\sum_{i}^{n} X_i$$
-denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
-
+\begin{frame}
+\frametitle{References}
+\footnotesize{
+\begin{thebibliography}{09}
+\bibitem[1]{p1} Aapo Hyvärinen, Jarmo Hurri, and Patrik O. Hoyer
+\newblock Natural Image Statistics: A Probabilistic Approach to Early Computational Vision
+\newblock \emph{Springer-Verlag}, 2009
+\end{thebibliography}
+}
 \end{frame}
 
 \end{document}
