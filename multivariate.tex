@@ -17,7 +17,7 @@
 \usepackage[english]{babel}
 \usepackage[utf8x]{inputenc}
 
-\title[Multivariate probabilty and statistics]{Multivariate probabilty and statistics}
+\title[Multivariate Probabilty and Statistics]{Multivariate Probabilty and Statistics}
 \author{Jussi Martin}
 %\institute{Where You're From}
 \date{October 24, 2016}
@@ -65,9 +65,9 @@
   since they are needed in the exercises.
 \end{frame}
 
-\section{Random variables}
+\section{Random Variables}
 
-\begin{frame}{Random variables}
+\begin{frame}{Random Variables}
  Discrete random variable is a variable which can have any value from some given
  range with some given probabilty. Example: outcome of throwing a dice. The outcome
  can have any value from 1 to 6, each with the probability $\frac{1}{6}$.
@@ -77,9 +77,9 @@
  any given interval. Example WRITE THIS!
 \end{frame}
 
-\section{Random vectors}
+\section{Random Vectors}
 
-\begin{frame}{Random vectors}
+\begin{frame}{Random Vectors}
   Random vector is a $n$-tuple of random variables. Each of these can be either
   similar or different types of variables. Formally:
   \[ \mathbf{z} =  \begin{pmatrix} z_1 \\ z_2 \\ \vdots \\ z_n \end{pmatrix} \]
@@ -87,9 +87,9 @@
   its components.
 \end{frame}
 
-\section{Probability density function (pdf)}
+\section{Probability Density Function (pdf)}
 
-\begin{frame}{Probability density function (pdf)}
+\begin{frame}{Probability Density Function (pdf)}
   Let $P(\text{$z$ is in [a, b]})$ be the probability that the value of a
   random variable $z$ is in the interval $[a, b]$, then the probabilty density
   function $p_z(a)$ can be defined approximately as follows:
@@ -100,12 +100,12 @@
   \[ p_{\mathbf{z}}(\mathbf{a}) \approx
   \frac{P(\textnormal{$z_i$ is in $[a_i, a_i + \nu]$ for all $i$})}{\nu^n}\]
   for very small values of $\nu$. Rigorous definitions are obtained by taking
-  the limit $\nu \to 0$.
+  the one-sided limit $\nu \to 0^+$.
 \end{frame}
 
-\section{Joint and marginal probability density functions}
+\section{Joint and Marginal pdfs}
 
-\begin{frame}{Joint and marginal probability density functions}
+\begin{frame}{Joint and Marginal pdfs}
   The pdf $p(z_1, z_2, \ldots, z_n)$ of a random vector $\mathbf{z}$ is also
   called joint pdf, since it depends on all the components $z_i$.
 
@@ -116,9 +116,9 @@
   \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2\]
 \end{frame}
 
-\section{Conditional probabilities}
+\section{Conditional Probabilities}
 
-\begin{frame}{Conditional probabilities}
+\begin{frame}{Conditional Probabilities}
   (continuous case, discrete case)
   \[
   p(z_2|z_1 = a) =
@@ -145,60 +145,6 @@
   \frac{p(z_1, z_2)}{p(z_1)} = p(z_2) \ \text{or otherway around that} \ p(z_1, z_2) = p(z_1)p(z_2)
   \]
   for all $z_1$ and $z_2$.
-\end{frame}
-
-\section{Expectation}
-
-\begin{frame}{Expectation}
-  Expectation $E\{z\}$ of a random variable $z$ is a weighted average of the
-  outcomes which the variable can obtain, with the weights been the individual
-  propabilities (or probability density functions in continuous cases).
-  \[
-  \text{Discrete case:} \qquad
-  E\{z\} = \sum_{z} P_{z}(z)z
-  \]
-  \[
-  \text{Continuous case:} \qquad
-  E\{z\} = \int p_{z}(z)zdz
-  \]
-  The expectation can be also defined for random vectors component wise:
-  \[
-  E\{\mathbf{z}\} =
-  \begin{pmatrix} E\{z_1\} \\ E\{z_2\} \\ \vdots \\ E\{z_n\} \end{pmatrix}
-  \]
-  where $E\{z_i\}$ is defined as above, with $z$ repleced by $z_i$ for all $i$.
-  % (write the components?)\\
-  % it is linear:
-  % \[
-  % E\{a\mathbf{z} + b\mathbf{z}\}  = aE\{\mathbf{z}\} + bE\{\mathbf{z}\}.
-  % \]
-  % Similarily, for any matrix $\mathbf{M}$
-  % \[
-  % E\{\mathbf{Mz}\} = \mathbf{M}E\{\mathbf{z}\}.
-  % \]
-\end{frame}
-
-\section{Variance}
-
-\begin{frame}{Variance}
-  Variance in some sense tells how close the probability mass is concentrated
-  near the ecpectation value. It is defined as follows:
-  \[
-  var(z)= E\{z^2\}-(E\{z\})^2.
-  \]
-  Alternatively it can defined as
-  \[
-   var(z) = E\{(z-E\{z\})^2\}.
-  \]
-  WRITE THIS IN A BETTER WAY!
-  % covariance and correlation
-  % \[
-  % cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
-  % \]
-  % \[
-  % corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}
-  % \]
-
 \end{frame}
 
 % \section{Covariance Matrix}
@@ -230,9 +176,9 @@
 %   indepandent variables are uncorreleted (take $g_1(z) = g_2(z) = z$).
 % \end{frame}
 
-\section{Baye's rule}
+\section{Baye's Rule}
 
-\begin{frame}{Baye's rule}
+\begin{frame}{Baye's Rule}
   Baye's rule
   \[
   p(\mathbf{s}|\mathbf{z}) =
@@ -320,6 +266,60 @@
 % denote their mean. Then as $n$ approaches infinity, the random variables $\sqrt{n}(S_n - \mu)$ converge in distribution to a normal $\mathcal{N}(0, \sigma^2)$.
 %
 % \end{frame}
+
+\section{Appendix I, Expectation}
+
+\begin{frame}{Appendix I, Expectation}
+  Expectation $E\{z\}$ of a random variable $z$ is a weighted average of the
+  outcomes which the variable can obtain, with the weights been the individual
+  propabilities (or values of the pdf in the continuous case).
+  \[
+  \text{Discrete case:} \qquad
+  E\{z\} = \sum_{z} P_{z}(z)z
+  \]
+  \[
+  \text{Continuous case:} \qquad
+  E\{z\} = \int p_{z}(z)zdz
+  \]
+  The expectation can be also defined for random vectors component wise:
+  \[
+  E\{\mathbf{z}\} =
+  \begin{pmatrix} E\{z_1\} \\ E\{z_2\} \\ \vdots \\ E\{z_n\} \end{pmatrix}
+  \]
+  where $E\{z_i\}$ is defined as above, with $z$ repleced by $z_i$ for all $i$.
+  % (write the components?)\\
+  % it is linear:
+  % \[
+  % E\{a\mathbf{z} + b\mathbf{z}\}  = aE\{\mathbf{z}\} + bE\{\mathbf{z}\}.
+  % \]
+  % Similarily, for any matrix $\mathbf{M}$
+  % \[
+  % E\{\mathbf{Mz}\} = \mathbf{M}E\{\mathbf{z}\}.
+  % \]
+\end{frame}
+
+\section{Appendix II, Variance}
+
+\begin{frame}{Appendix II, Variance}
+  Variance in some sense tells how close the probability mass is concentrated
+  near the ecpectation value. It is defined as follows:
+  \[
+  var(z)= E\{z^2\}-(E\{z\})^2.
+  \]
+  Alternatively it can defined as
+  \[
+   var(z) = E\{(z-E\{z\})^2\}.
+  \]
+  WRITE THIS IN A BETTER WAY!
+  % covariance and correlation
+  % \[
+  % cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
+  % \]
+  % \[
+  % corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}
+  % \]
+
+\end{frame}
 
 \section{References}
 
