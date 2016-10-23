@@ -70,11 +70,13 @@
 \begin{frame}{Random Variables}
  Discrete random variable is a variable which can have any value from some given
  range with some given probabilty. Example: outcome of throwing a dice. The outcome
- can have any value from 1 to 6, each with the probability $\frac{1}{6}$.
+ can have any integer value from 1 to 6, each with the probability $\frac{1}{6}$.
 
  Continuos random variable is a variable which can have any value from some given
  continuous range of values, with some given probabilities for the value been in
- any given interval. Example WRITE THIS!
+ any given interval. Example: uniform probability distribution on the interval
+ $[0, 1]$. Now the outcome is in an interval $[a, b]$ with the probability $b-a$
+ for any given values $0 \le a \le b \le 1$.
 \end{frame}
 
 \section{Random Vectors}
@@ -112,39 +114,57 @@
   The marginal pdfs $p_{z_i}(z_i)$ are obtained by integrating over the other
   variables (that is $z_j$, with $j \ne i$). Example in two dimensions:
   \[ p_{z_1}(z_1) =  \int p(z_1, z_2)dz_2\]
-  or more rigorosly:
+  or more rigorosly: (SOMETHING ELSE HERE!)
   \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2\]
 \end{frame}
 
 \section{Conditional Probabilities}
 
 \begin{frame}{Conditional Probabilities}
-  (continuous case, discrete case)
+  Conditional pdfs are obtained from any joint pdf by fixing the value of one (or
+  several) of its components and multiplying the result with a normalization
+  factor. Example: (conditional pdf of $z_2$ with $z_1$ given)
   \[
   p(z_2|z_1 = a) =
-  \frac{ p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}
+  \frac{ p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}.
   \]
-  or more concisely:
+  or more concisely
   \[
   p(z_2|z_1 = a) =
   \frac{ p_{\mathbf{z}}(a, z_2)}{p_{z_1}(a)} = \text{e.t.c.}
   \]
-  for discrete case the integral is replaced by sum, that is
-  \[ P_{z_1}(z_1) = \sum_{z_2}P_{\mathbf{z}}(z_1, z_2)\]
+  FINISH THIS! (EXPLAIN THE NOTATION $p(z_1|z_2$))
+\end{frame}
+
+\section{Conditional Probabilities (discrete case)}
+
+\begin{frame}{Conditional Probabilities (discrete case)}
+  For discrete case the integral is replaced by sum, that is
+  \[
+  P_{z_1}(z_1) = \sum_{z_2}P_{\mathbf{z}}(z_1, z_2)
+  \]
+  FINISH THIS!
 \end{frame}
 
 \section{Independence}
 
 \begin{frame}{Independence}
-  definition
+  Two random variables $z_1$ and $z_2$ are said to be statistical independent if
+  information about the value of one of them does not give any information about
+  the value of the other. Formaly this can be writen as
   \[
-  p(z_2|z_1) = p(z_2) \ \text{for every $z_1$ and $z_2$}
+  p(z_2|z_1) = p(z_2) \ \text{for every $z_1$ and $z_2$},
   \]
-  which implies that
+  since conditional probability assumes that the value of the other variable is
+  fixed (and hence known). Substituting the formula of $p(z_1|z_2)$ we obtain
+  two alternative ways to define independence:
   \[
-  \frac{p(z_1, z_2)}{p(z_1)} = p(z_2) \ \text{or otherway around that} \ p(z_1, z_2) = p(z_1)p(z_2)
+  \frac{p(z_1, z_2)}{p(z_1)} = p(z_2)  \ \text{for every $z_1$ and $z_2$}
   \]
-  for all $z_1$ and $z_2$.
+  or
+  \[
+  \ p(z_1, z_2) = p(z_1)p(z_2)  \ \text{for every $z_1$ and $z_2$}.
+  \]
 \end{frame}
 
 % \section{Covariance Matrix}
@@ -267,9 +287,9 @@
 %
 % \end{frame}
 
-\section{Appendix I, Expectation}
+\section{Expectation}
 
-\begin{frame}{Appendix I, Expectation}
+\begin{frame}{Expectation}
   Expectation $E\{z\}$ of a random variable $z$ is a weighted average of the
   outcomes which the variable can obtain, with the weights been the individual
   propabilities (or values of the pdf in the continuous case).
@@ -298,9 +318,9 @@
   % \]
 \end{frame}
 
-\section{Appendix II, Variance}
+\section{Variance}
 
-\begin{frame}{Appendix II, Variance}
+\begin{frame}{Variance}
   Variance in some sense tells how close the probability mass is concentrated
   near the ecpectation value. It is defined as follows:
   \[
