@@ -20,7 +20,7 @@
 \title[Multivariate probabilty and statistics]{Multivariate probabilty and statistics}
 \author{Jussi Martin}
 %\institute{Where You're From}
-\date{Date of Presentation}
+\date{October 24, 2016}
 
 \begin{document}
 
@@ -54,12 +54,12 @@
 
 \begin{frame}{Introduction}
   This presentation is a breef summary of some of the topics introduced in
-  chapter 4 of the book \textbf{Natural Image Statistics} (reference at
+  chapter 4 of the book \emph{Natural Image Statistics} (reference at
   the last slide).
 
   Since there won't be enough time to cover the whole chapter 4, I decide to go
   trough the things that are needed for understanding the \emph{Baye's rule},
-  which I think is part of the core content in this chapter.
+  which I think is one of the core content in this chapter.
 
   I will also introduce \emph{expectation} and \emph{variance} in these slides,
   since they are needed in the exercises.
@@ -87,20 +87,30 @@
   its components.
 \end{frame}
 
-\section{Probability density}
+\section{Probability density function (pdf)}
 
-\begin{frame}{Probability density}
-  (Function, Examples)
-  \[ p_z(a) = \frac{p(\textnormal{$z$ is in $[a, a + \nu]$})}{\nu}\]
-  \[ p_{\mathbf{z}}(\mathbf{a}) =
-  \frac{p(\textnormal{$z_i$ is in $[a_i, a_i + \nu]$ for all $i$})}{\nu^n}\]
+\begin{frame}{Probability density function (pdf)}
+  Let $P(\text{$z$ is in [a, b]})$ be the probability that the value of a
+  random variable $z$ is in the interval $[a, b]$, then the probabilty density
+  function $p_z(a)$ can be defined approximately as follows:
+  \[ p_z(a) \approx \frac{P(\textnormal{$z$ is in $[a, a + \nu]$})}{\nu}\]
+  for very small values of $\nu$.
+
+  Similarily, if $\mathbf{z}$ is a random vector:
+  \[ p_{\mathbf{z}}(\mathbf{a}) \approx
+  \frac{P(\textnormal{$z_i$ is in $[a_i, a_i + \nu]$ for all $i$})}{\nu^n}\]
+  for very small values of $\nu$. Rigorous definitions are obtained by taking
+  the limit $\nu \to 0$.
 \end{frame}
 
-\section{Marginal and joint probabilities}
+\section{Joint and marginal probability density functions}
 
-\begin{frame}{Marginal and joint probabilities}
-  (Definition, examples)\\
-  Marginal:
+\begin{frame}{Joint and marginal probability density functions}
+  The pdf $p(z_1, z_2, \ldots, z_n)$ of a random vector $\mathbf{z}$ is also
+  called joint pdf, since it depends on all the components $z_i$.
+
+  The marginal pdfs $p_{z_i}(z_i)$ are obtained by integrating over the other
+  variables (that is $z_j$, with $j \ne i$). Example in two dimensions:
   \[ p_{z_1}(z_1) =  \int p(z_1, z_2)dz_2\]
   or more rigorosly:
   \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2\]
@@ -128,13 +138,13 @@
 \begin{frame}{Independence}
   definition
   \[
-  p(z_2|z_1) = p(z_2) \text{for every $z_1$ and $z_2$}
+  p(z_2|z_1) = p(z_2) \ \text{for every $z_1$ and $z_2$}
   \]
   which implies that
   \[
   \frac{p(z_1, z_2)}{p(z_1)} = p(z_2) \ \text{or otherway around that} \ p(z_1, z_2) = p(z_1)p(z_2)
   \]
-  for all $z_1$ and $z_2$S
+  for all $z_1$ and $z_2$.
 \end{frame}
 
 \section{Expectation}
@@ -142,7 +152,7 @@
 \begin{frame}{Expectation}
   Expectation $E\{z\}$ of a random variable $z$ is a weighted average of the
   outcomes which the variable can obtain, with the weights been the individual
-  propablities (or probability densities in continuous cases).
+  propabilities (or probability density functions in continuous cases).
   \[
   \text{Discrete case:} \qquad
   E\{z\} = \sum_{z} P_{z}(z)z
@@ -156,7 +166,7 @@
   E\{\mathbf{z}\} =
   \begin{pmatrix} E\{z_1\} \\ E\{z_2\} \\ \vdots \\ E\{z_n\} \end{pmatrix}
   \]
-  where $E\{z_i\}$ is defined as above with $z$ repleced by $z_i$ for all $i$.
+  where $E\{z_i\}$ is defined as above, with $z$ repleced by $z_i$ for all $i$.
   % (write the components?)\\
   % it is linear:
   % \[
@@ -171,8 +181,8 @@
 \section{Variance}
 
 \begin{frame}{Variance}
-  Variance in some sense tells how close the probablity mass is concentrated
-  near the ecpectation value. Its defined as follows:
+  Variance in some sense tells how close the probability mass is concentrated
+  near the ecpectation value. It is defined as follows:
   \[
   var(z)= E\{z^2\}-(E\{z\})^2.
   \]
