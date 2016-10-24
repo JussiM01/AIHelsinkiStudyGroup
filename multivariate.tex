@@ -53,7 +53,7 @@
 \section{Introduction}
 
 \begin{frame}{Introduction}
-  This presentation is a breef summary of some of the topics introduced in
+  This presentation is a brief summary of some of the topics introduced in
   chapter 4 of the book \emph{Natural Image Statistics} (reference at
   the last slide).
 
@@ -71,8 +71,9 @@
 
 \begin{frame}{Random Variables}
  Discrete random variable is a variable which can have any value from some given
- range with some given probabilty. Example: outcome of throwing a dice. The outcome
- can have any integer value from 1 to 6, each with the probability $\frac{1}{6}$.
+ countable set with some given probabilty. Example: outcome of throwing a dice.
+ The outcome can have any integer value from 1 to 6, each with the probability
+ $\frac{1}{6}$.
 
  Continuos random variable is a variable which can have any value from some given
  continuous range of values, with some given probabilities for the value been in
@@ -208,7 +209,7 @@
   \]
   The distribution on the left is called \emph{posterior distribution} and the
   distribution $p_{\mathbf{s}}(\mathbf{s})$ on the right side is called
-  \emph{priori distribution}.
+  \emph{prior distribution}.
 
   In the case of discretely distributed random vector the rule takes the form:
   \[
@@ -299,12 +300,12 @@
   \text{Continuous case:} \qquad
   E\{z\} = \int p_{z}(z)zdz
   \]
-  The expectation can be also defined for random vectors component wise:
+  The expectation can be also defined for random vectors componentwise:
   \[
   E\{\mathbf{z}\} =
   \begin{pmatrix} E\{z_1\} \\ E\{z_2\} \\ \vdots \\ E\{z_n\} \end{pmatrix}
   \]
-  where $E\{z_i\}$ is defined as above, with $z$ repleced by $z_i$ for all $i$.
+  where $E\{z_i\}$ is defined as above, with $z$ replaced by $z_i$ for all $i$.
   % (write the components?)\\
   % it is linear:
   % \[
@@ -320,7 +321,7 @@
 
 \begin{frame}{Variance and Covariance}
   Variance in some sense tells how close the probability mass is concentrated
-  near the ecpectation value. It is defined as follows:
+  near the expected value. It is defined as follows:
   \[
   var(z)= E\{z^2\}-(E\{z\})^2.
   \]
@@ -367,11 +368,11 @@
   is assumed to have probability distribution $p(z, \alpha)$ for some unknown
   parameter $\alpha$, we can define the likelihood:
   \[
-  p(z(1), \ldots , z(n)|\alpha) = p(z(1)\alpha)\times \ldots \times p(z(n)|\alpha)
+  p(z(1), \ldots , z(n)|\alpha) = p(z(1)|\alpha)\times \ldots \times p(z(n)|\alpha)
   \]
   and the log-likelihood:
   \[
-  \log p(z(1), \ldots , z(n)|\alpha) = \log p(z(1)\alpha)\times \ldots \times \log p(z(n)|\alpha).
+  \log p(z(1), \ldots , z(n)|\alpha) = \log p(z(1)|\alpha) + \ldots + \log p(z(n)|\alpha).
   \]
   These are functions of the parameter $\alpha$, when the model $p(z, \alpha)$
   and the samples $z(1), \ldots , z(n)$ are fixed.
@@ -394,7 +395,7 @@
   Maximum likelihood estimate $\hat{\alpha}$ on the other hand is the one which
   maximizes the likelihood.
 
-  If we choose a flat prior, that is $p(\alpha) =$ constant, these estimate are
+  If we choose a flat prior, that is $p(\alpha) =$ constant, these estimates are
   the same.
 \end{frame}
 
