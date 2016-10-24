@@ -58,11 +58,13 @@
   the last slide).
 
   Since there won't be enough time to cover the whole chapter 4, I decide to go
-  trough the things that are needed for understanding the \emph{Baye's rule},
-  which I think is one of the core content in this chapter.
+  trough the things that are needed for understanding the \emph{Bayes' rule},
+  which I think is one of the core contents in this chapter.
 
-  I will also introduce \emph{expectation} and \emph{variance} in these slides,
-  since they are needed in the exercises.
+  I will also introduce \emph{expectation}, \emph{variance}, \emph{covariance},
+  \emph{likelihood}, \emph{log-likelihood}, \emph{maximum likelihood estimate}
+  and \emph{maximum a posteriori estimates} in these slides, since some of them
+  are needed in the exercises.
 \end{frame}
 
 \section{Random Variables}
@@ -113,9 +115,12 @@
 
   The marginal pdfs $p_{z_i}(z_i)$ are obtained by integrating over the other
   variables (that is $z_j$, with $j \ne i$). Example in two dimensions:
-  \[ p_{z_1}(z_1) =  \int p(z_1, z_2)dz_2\]
-  or more rigorosly: (SOMETHING ELSE HERE!)
-  \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2\]
+  \[ p_{z_1}(z_1) =  \int p_{\mathbf{z}}(z_1, z_2)dz_2.\]
+
+  % Here we have used same notation for the random variable and its value. More
+  % rigorous way would be to write:
+  % \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2.\]
+  % Earlier notation is often used in practice and we will also use it later.
 \end{frame}
 
 \section{Conditional Probabilities}
@@ -128,30 +133,41 @@
   p(z_2|z_1 = a) =
   \frac{ p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}.
   \]
-  or more concisely
+  Using the definition of marginal pdf, this can be written as
   \[
   p(z_2|z_1 = a) =
-  \frac{ p_{\mathbf{z}}(a, z_2)}{p_{z_1}(a)} = \text{e.t.c.}
+  \frac{ p_{\mathbf{z}}(a, z_2)}{p_{z_1}(a)},
   \]
-  FINISH THIS! (EXPLAIN THE NOTATION $p(z_1|z_2$))
+  which can be simplified further by omiting the subcsripts
+  \[
+  p(z_2|z_1 = a) =
+  \frac{ p(a, z_2)}{p(a)}
+  \]
 \end{frame}
 
-\section{Conditional Probabilities (discrete case)}
+\begin{frame}{Conditional Probabilities}
 
-\begin{frame}{Conditional Probabilities (discrete case)}
-  For discrete case the integral is replaced by sum, that is
+  or by not introducing the quantity $a$ we can write it as
   \[
-  P_{z_1}(z_1) = \sum_{z_2}P_{\mathbf{z}}(z_1, z_2)
+  p(z_2|z_1) =
+  \frac{ p_{\mathbf{z}}(z_1, z_2)}{p(z_1)}.
   \]
-  FINISH THIS!
+  For the discrete case the integral is replaced by sum, that is
+  \[
+  P(z_2|z_1) = \frac{P_{\mathbf{z}}(z_1, z_2)}{P_{z_1}(z_1)}
+  \]
+  where
+  \[
+  P_{z_1}(z_1) = \sum_{z_2}P_{\mathbf{z}}(z_1, z_2).
+  \]
 \end{frame}
 
 \section{Independence}
 
 \begin{frame}{Independence}
-  Two random variables $z_1$ and $z_2$ are said to be statistical independent if
-  information about the value of one of them does not give any information about
-  the value of the other. Formaly this can be writen as
+  Two random variables $z_1$ and $z_2$ are said to be statistically independent
+  if information about the value of one of them does not give any information
+  about the value of the other. Formally this can be written as
   \[
   p(z_2|z_1) = p(z_2) \ \text{for every $z_1$ and $z_2$},
   \]
@@ -167,22 +183,6 @@
   \]
 \end{frame}
 
-% \section{Covariance Matrix}
-%
-% \begin{frame}{Covariance Matrix}
-%   \[
-%   \mathbf{C}(\mathbf{z}) =
-%   \begin{pmatrix}
-%     cov(z_1, z_1) \ cov(z_1, z_2) \ldots cov(z_1, z_n) \\
-%     cov(z_2, z_1) \ cov(z_2, z_2) \ldots cov(z_2, z_n) \\
-%     \vdots \qquad \qquad \ddots \quad \vdots \\
-%     cov(z_n, z_1) \ cov(z_n, z_2) \ldots cov(z_n, z_n)
-%   \end{pmatrix}
-%   \]
-%   or more concisely:
-%   \[ \mathbf{C}(\mathbf{z}) =
-%   E\{\mathbf{zz}^T\} - E\{\mathbf{z}\} E\{\mathbf{z}\}^T\]
-% \end{frame}
 %
 % \section{Independence and covariance}
 %
@@ -196,15 +196,25 @@
 %   indepandent variables are uncorreleted (take $g_1(z) = g_2(z) = z$).
 % \end{frame}
 
-\section{Baye's Rule}
+\section{Bayes' Rule}
 
-\begin{frame}{Baye's Rule}
-  Baye's rule
+\begin{frame}{Bayes' Rule}
+  Bayes' rule gives us the probability distribution $p(\mathbf{s}|\mathbf{z})$
+  when we know the distributions $p(\mathbf{z}|\mathbf{s})$ and $p(s)$. For
+  continuously distributed random vector it is written as follows:
   \[
   p(\mathbf{s}|\mathbf{z}) =
-  \frac{p(\mathbf{z}|\mathbf{s})p_{\mathbf{s}}(\mathbf{s})}{\int p(\mathbf{z}|\mathbf{s})p_{\mathbf{s}}(\mathbf{s})ds}
+  \frac{p(\mathbf{z}|\mathbf{s})p_{\mathbf{s}}(\mathbf{s})}{\int p(\mathbf{z}|\mathbf{s})p_{\mathbf{s}}(\mathbf{s})ds}.
   \]
-  Or more rigorously WRITE HERE?
+  The distribution on the left is called \emph{posterior distribution} and the
+  distribution $p_{\mathbf{s}}(\mathbf{s})$ on the right side is called
+  \emph{priori distribution}.
+
+  In the case of discretely distributed random vector the rule takes the form:
+  \[
+  P(\mathbf{s}|\mathbf{z}) =
+  \frac{P(\mathbf{z}|\mathbf{s})P_{\mathbf{s}}(\mathbf{s})}{\sum_{\mathbf{s}} P(\mathbf{z}|\mathbf{s})P_{\mathbf{s}}(\mathbf{s})}.
+  \]
 \end{frame}
 
 % \section{Non informative priors}
@@ -222,18 +232,6 @@
 %
 % \begin{frame}{Bayesian inference as a incremental learning process}
 %   Explanation
-% \end{frame}
-%
-% \section{Parameter estimation and likelihood}
-%
-% \begin{frame}{Parameter estimation and likelihood}
-%   (statistical model, estimation, likelihood \& log-likelihood)
-% \end{frame}
-%
-% \section{Maximum likelihood and maximum posteriori}
-%
-% \begin{frame}{Maximum likelihood and maximum posteriori}
-%   (definition, definition)
 % \end{frame}
 %
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -318,27 +316,86 @@
   % \]
 \end{frame}
 
-\section{Variance}
+\section{Variance and Covariance}
 
-\begin{frame}{Variance}
+\begin{frame}{Variance and Covariance}
   Variance in some sense tells how close the probability mass is concentrated
   near the ecpectation value. It is defined as follows:
   \[
   var(z)= E\{z^2\}-(E\{z\})^2.
   \]
-  Alternatively it can defined as
+  Alternatively it can be written as
   \[
    var(z) = E\{(z-E\{z\})^2\}.
   \]
-  WRITE THIS IN A BETTER WAY!
-  % covariance and correlation
-  % \[
-  % cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
-  % \]
-  % \[
-  % corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}
-  % \]
+  When we have two variables we can define their covariance:
+  \[
+  cov(z_1, z_2) = E\{z_1 z_2\} - E\{z_1\}E\{z_2\}
+  \]
+  which measures how well we can predict the value of one variable from another
+  by using simple linear predictor.
 
+  % \section{Correlation Coefficient}
+  Covariance is often normalized and this quantity is the correlation
+  coefficient:
+  \[
+  corr(z_1,z_2) = \frac{cov(z_1, z_2)}{\sqrt{var(z_1)var(z_2)}}.
+  \]
+\end{frame}
+
+% \section{Covariance Matrix}
+%
+% \begin{frame}{Covariance Matrix}
+%   \[
+%   \mathbf{C}(\mathbf{z}) =
+%   \begin{pmatrix}
+%     cov(z_1, z_1) \ cov(z_1, z_2) \ldots cov(z_1, z_n) \\
+%     cov(z_2, z_1) \ cov(z_2, z_2) \ldots cov(z_2, z_n) \\
+%     \vdots \qquad \qquad \ddots \quad \vdots \\
+%     cov(z_n, z_1) \ cov(z_n, z_2) \ldots cov(z_n, z_n)
+%   \end{pmatrix}
+%   \]
+%   or more concisely:
+%   \[ \mathbf{C}(\mathbf{z}) =
+%   E\{\mathbf{zz}^T\} - E\{\mathbf{z}\} E\{\mathbf{z}\}^T\]
+% \end{frame}
+
+\section{Likelihood and Log-likelihood}
+
+\begin{frame}{Likelihood and Log-likelihood}
+  Given $n$ samples $z(1), \ldots , z(n)$ of a random variable variable $z$, which
+  is assumed to have probability distribution $p(z, \alpha)$ for some unknown
+  parameter $\alpha$, we can define the likelihood:
+  \[
+  p(z(1), \ldots , z(n)|\alpha) = p(z(1)\alpha)\times \ldots \times p(z(n)|\alpha)
+  \]
+  and the log-likelihood:
+  \[
+  \log p(z(1), \ldots , z(n)|\alpha) = \log p(z(1)\alpha)\times \ldots \times \log p(z(n)|\alpha).
+  \]
+  These are functions of the parameter $\alpha$, when the model $p(z, \alpha)$
+  and the samples $z(1), \ldots , z(n)$ are fixed.
+\end{frame}
+
+\section{Maximum Likelihood and Maximum a Posteriori}
+
+\begin{frame}{Maximum Likelihood and Maximum a Posteriori}
+  In maximum likelihood and maximum a posteriori estimates one tries to find
+  the value of the parameter $\alpha$ which is in some sense optimal for
+  observing the samples $z(1), \ldots , z(n)$.
+
+  Using the Bayes' rule we see that
+  \[
+  p(\alpha| z(1), \ldots , z(n)) = \frac{p(z(1), \ldots , z(n)|\alpha)p(\alpha)}{p(z(1), \ldots , z(n))}.
+  \]
+  The maximum a posteriori estimate $\hat{\alpha}$ is the one that maximizes
+  the value of the posterior probability for the given prior $p(\alpha)$.
+
+  Maximum likelihood estimate $\hat{\alpha}$ on the other hand is the one which
+  maximizes the likelihood.
+
+  If we choose a flat prior, that is $p(\alpha) =$ constant, these estimate are
+  the same.
 \end{frame}
 
 \section{References}
