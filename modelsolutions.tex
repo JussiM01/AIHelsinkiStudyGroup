@@ -36,8 +36,16 @@ Model solutions (Jussi Martin)}
 \item[\textbf{1.}] (Math exercise 1 from chapter 4).\\
 \\
 \textbf{Solution:}\\
-
+If we right the conditional probabilty as
+\[ p(z_2|z_1 = a) =
+\frac{p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}\]
+we see that integration over $z_1$ gives us
+\[ \int p(z_2|z_1 = a)dz_2 =
+\int \frac{p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}dz_2 =
+\frac{\int p_{\mathbf{z}}(a, z_2)dz_2}{\int p_{\mathbf{z}}(a, z_2)dz_2} = 1\]
+since the denominator is just a constant.
 \vspace{0.3cm}
+
 \item[\textbf{2.}] (Math exercise 2 from chapter 4).\\
 \\
 \textbf{Solution:}\\
