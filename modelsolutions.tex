@@ -33,29 +33,88 @@ Model solutions (Jussi Martin)}
 \vspace{1cm}
 
 \begin{tehtratk}
-\item[\textbf{1.}] (Math exercise 1 from chapter 4).\\
+\item[\textbf{1.}] Math exercise 1 from chapter 4.\\
 \\
-\textbf{Solution:}\\
-If we right the conditional probabilty as
+\textbf{Solution:} If we right the conditional probability as
 \[ p(z_2|z_1 = a) =
 \frac{p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}\]
-we see that integration over $z_1$ gives us
+we see that integration over $z_2$ gives us
 \[ \int p(z_2|z_1 = a)dz_2 =
 \int \frac{p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}dz_2 =
 \frac{\int p_{\mathbf{z}}(a, z_2)dz_2}{\int p_{\mathbf{z}}(a, z_2)dz_2} = 1\]
 since the denominator is just a constant.
 \vspace{0.3cm}
 
-\item[\textbf{2.}] (Math exercise 2 from chapter 4).\\
+\item[\textbf{2.}] Math exercise 2 from chapter 4.\\
 \\
-\textbf{Solution:}\\
-\\
-
+\textbf{Solution:} Lets denote the random variable by $z$ (in the sequel I will
+denote also it's values by $z$). Since it is distributed uniformly on the
+interval $[a, b]$ we have
+\[
+p(z) = \frac{1}{b - a} \quad \text{for every $z$ in $[a, b]$}.
+\]
+It's mean is
+\[
+E\{z\} = \int_a^b p(z)zdz = \frac{1}{b - a}\int_a^b zdz =
+\frac{1}{b - a}\Big(\frac{b^2}{2} - \frac{b^2}{2}\Big).
+\]
+Since
+\[
+b^2 - a^2 = (b + a)(b - a)
+\]
+we get
+\[
+E\{z\} =
+\frac{1}{2}\frac{(b + a)(b - a)}{b - a} = \frac{b + a}{2}.
+\]
+It's variance is
+\[
+\text{var}(z) = E\{z^2\} - (E\{z\})^2 = \int_a^b p(z)z^2dz  - (E\{z\})^2.
+\]
+Using the previous result for the mean we get
+\[
+\text{var}(z) = \int_a^b p(z)z^2dz  - \frac{(b + a)^2}{4} =
+\frac{1}{b - a}\int_a^b z^2dz - \frac{(b + a)^2}{4}.
+\]
+Solving the integral we get
+\[
+\text{var}(z) =
+\frac{1}{b - a}\Big(\frac{b^3}{3} - \frac{a^3}{3}\Big)- \frac{(b + a)^2}{4}
+\]
+and since
+\[
+b^3 - a^3 = (b -a)(b^2 + ab + a^2)
+\]
+we see that
+\[
+\text{var}(z) = \frac{(b^2 + ab + a^2)}{3} - \frac{(b + a)^2}{4}
+= \frac{4b^2 + 4ab + 4a^2}{12} -\frac{3b^2 + 6ab + 3b^2}{12}.\]
+Which reducies to:
+\[
+\text{var}(z) = \frac{b^2 - 2ab - a^2}{12} = \frac{(b - a)}{12}^2.
+\]
 \vspace{0.3cm}
-\item[\textbf{3.}] (Math exercise 6 from chapter 4).\\
+\item[\textbf{3.}] Math exercise 6 from chapter 4.\\
 \\
-\textbf{Solution:}\\
-\\
-
+\textbf{Solution:} Now the likelihood is
+\[
+p(z|\alpha) = \frac{1}{\sqrt{2 \pi}}\exp(-\frac{1}{2}(z - \alpha)^2)
+\]
+and the log-likelihood is
+\[
+\log p(z|\alpha) = -\frac{1}{2}(z - \alpha)^2 - \text{const.}
+\]
+Since the logarithm is incresing function, the value which maximizes the
+log-likelihood also maximizes the likelihood. Furthermore, the log-likelihood
+function is a down opening parabola and hence the maximum is achieved in the
+uniq point on top of the parabola. This point is also a point where derivative
+of function
+\[f(\alpha) = -\frac{1}{2}(z - \alpha)^2\]
+vanishes.
+The maximum value of the likelihood is thus found by seting $f'(\alpha) = 0$,
+which yields:
+\[
+-z + \alpha = 0 \quad \Leftrightarrow \quad \alpha = z.
+\]
 \end{tehtratk}
 \end{document}
