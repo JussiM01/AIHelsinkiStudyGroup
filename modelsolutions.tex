@@ -35,7 +35,7 @@ Model solutions (Jussi Martin)}
 \begin{tehtratk}
 \item[\textbf{1.}] Math exercise 1 from chapter 4.\\
 \\
-\textbf{Solution:} If we right the conditional probability as
+\textbf{Solution:} If we write the conditional probability as
 \[ p(z_2|z_1 = a) =
 \frac{p_{\mathbf{z}}(a, z_2)}{\int p_{\mathbf{z}}(a, z_2)dz_2}\]
 we see that integration over $z_2$ gives us
@@ -98,23 +98,30 @@ Which reducies to:
 \\
 \textbf{Solution:} Now the likelihood is
 \[
-p(z|\alpha) = \frac{1}{\sqrt{2 \pi}}\exp(-\frac{1}{2}(z - \alpha)^2)
+p(z(1), \ldots , z(n)|\alpha) =
+\frac{1}{\sqrt{2 \pi}}\exp(-\frac{1}{2}\sum_{i = 0}^n(z(i) - \alpha)^2)
 \]
 and the log-likelihood is
 \[
-\log p(z|\alpha) = -\frac{1}{2}(z - \alpha)^2 - \text{const.}
+\log p(z1), \ldots , z(n)|\alpha) =
+-\frac{1}{2}\sum_{i = 0}^n(z(i) - \alpha)^2 - \text{const.}
 \]
 Since the logarithm is incresing function, the value which maximizes the
 log-likelihood also maximizes the likelihood. Furthermore, the log-likelihood
 function is a down opening parabola and hence the maximum is achieved in the
-uniq point on top of the parabola. This point is also a point where derivative
-of function
-\[f(\alpha) = -\frac{1}{2}(z - \alpha)^2\]
+uniq point $\hat{\alpha}$ on top of the parabola. This point is also a point
+where derivative of function
+\[f(\alpha) = -\frac{1}{2}\sum_{i = 0}^n(z(i) - \alpha)^2\]
 vanishes.
-The maximum value of the likelihood is thus found by seting $f'(\alpha) = 0$,
-which yields:
+The maximum value of the likelihood is thus found by seting
+$f'(\hat{\alpha}) = 0$, which yields:
 \[
--z + \alpha = 0 \quad \Leftrightarrow \quad \alpha = z.
+\big(-\sum_{i = 0}^n z(i)\big) + n\hat{\alpha} = 0
+\quad \Leftrightarrow \quad \hat{\alpha} = \frac{1}{n}\sum_{i = 0}^n z(i),
+\]
+since
+\[
+\frac{d}{d\alpha}(z(i) - \alpha)^2 = -2(z(i) -\alpha) \ \text{for every $i$.}
 \]
 \end{tehtratk}
 \end{document}
