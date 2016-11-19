@@ -71,11 +71,11 @@
 
 \begin{frame}{Random Variables}
  Discrete random variable is a variable which can have any value from some given
- countable set with some given probabilty. Example: outcome of throwing a dice.
+ countable set with some given probability. Example: outcome of throwing a dice.
  The outcome can have any integer value from 1 to 6, each with the probability
  $\frac{1}{6}$.
 
- Continuos random variable is a variable which can have any value from some given
+ Continuous random variable is a variable which can have any value from some given
  continuous range of values, with some given probabilities for the value been in
  any given interval. Example: uniform probability distribution on the interval
  $[0, 1]$. Now the outcome is in an interval $[a, b]$ with the probability $b-a$
@@ -96,12 +96,12 @@
 
 \begin{frame}{Probability Density Function (pdf)}
   Let $P(\text{$z$ is in [a, b]})$ be the probability that the value of a
-  random variable $z$ is in the interval $[a, b]$, then the probabilty density
+  random variable $z$ is in the interval $[a, b]$, then the probability density
   function $p_z(a)$ can be defined approximately as follows:
   \[ p_z(a) \approx \frac{P(\textnormal{$z$ is in $[a, a + \nu]$})}{\nu}\]
   for very small values of $\nu$.
 
-  Similarily, if $\mathbf{z}$ is a random vector:
+  Similarly, if $\mathbf{z}$ is a random vector:
   \[ p_{\mathbf{z}}(\mathbf{a}) \approx
   \frac{P(\textnormal{$z_i$ is in $[a_i, a_i + \nu]$ for all $i$})}{\nu^n}\]
   for very small values of $\nu$. Rigorous definitions are obtained by taking
@@ -116,11 +116,11 @@
 
   The marginal pdfs $p_{z_i}(z_i)$ are obtained by integrating over the other
   variables (that is $z_j$, with $j \ne i$). Example in two dimensions:
-  \[ p_{z_1}(z_1) =  \int p_{\mathbf{z}}(z_1, z_2)dz_2.\]
+  \[ p_{z_1}(z_1) = \int p_{\mathbf{z}}(z_1, z_2)dz_2.\]
 
   % Here we have used same notation for the random variable and its value. More
   % rigorous way would be to write:
-  % \[ p_{z_1}(\nu_1) =  \int p(\nu_1, \nu_2)d\nu_2.\]
+  % \[ p_{z_1}(\nu_1) = � \int p(\nu_1, \nu_2)d\nu_2.\]
   % Earlier notation is often used in practice and we will also use it later.
 \end{frame}
 
@@ -139,7 +139,7 @@
   p(z_2|z_1 = a) =
   \frac{ p_{\mathbf{z}}(a, z_2)}{p_{z_1}(a)},
   \]
-  which can be simplified further by omiting the subcsripts
+  which can be simplified further by omitting the subscripts
   \[
   p(z_2|z_1 = a) =
   \frac{ p(a, z_2)}{p(a)}
@@ -291,7 +291,7 @@
 \begin{frame}{Expectation}
   Expectation $E\{z\}$ of a random variable $z$ is a weighted average of the
   outcomes which the variable can obtain, with the weights been the individual
-  propabilities (or values of the pdf in the continuous case).
+  probabilities (or values of the pdf in the continuous case).
   \[
   \text{Discrete case:} \qquad
   E\{z\} = \sum_{z} P_{z}(z)z
@@ -300,7 +300,7 @@
   \text{Continuous case:} \qquad
   E\{z\} = \int p_{z}(z)zdz
   \]
-  The expectation can be also defined for random vectors componentwise:
+  The expectation can be also defined for random vectors component wise:
   \[
   E\{\mathbf{z}\} =
   \begin{pmatrix} E\{z_1\} \\ E\{z_2\} \\ \vdots \\ E\{z_n\} \end{pmatrix}
