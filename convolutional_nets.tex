@@ -56,51 +56,36 @@ Pictures: Local Connection, Tiled Convolution, Traditional Convolution
 
 \subsection{Gabor-like Learned Kernels (optional)}
 
-\section{Appendix: Tensors}
+\section{Tensors}
 
-We define tensors as multidimensional arrays, since this definition is the most
-suitable one for our practical purposes.
+We adopt the Deep Learning book's convention of calling multidimensional arrays
+of real numbers as tensors.
 
-Namely, the zero-dimensional tensor are just real numbers, also known as
-\emph{scalars} and for $d > 0$ the $d$-dimensional tensors $T$ are $d$-dimensional
-arrays with real valued components $T_{i_1, \ldots, i_d}$, where the indicies
-$i = (i_1, \ldots, i_d)$ belong to some rectangular grid
+Namely, 0-D tensors are just real numbers, 1-D tensors are arrays
 \[
-I = [1, \ldots, n_1]\times \ldots \times [1, \ldots, n_d]
+T = (T_1, \ldots, T_n)
 \]
-and the component index upper bounds $n_k$ are fixed positive numbers for the given
-tensor. Often the component indicies are written with separate letters and the
-commas are dropped, as in $T_{ij}$.
-
-\emph{Examples:} The one-dimensional tensors can be seen as \emph{vectors}:
+of real numbers, 2-D tensors are arrays
 \[
-T = \begin{pmatrix}
-  T_1\\
-  \vdots\\
-  T_n
- \end{pmatrix}, \quad T_i \in \mathbb{R} \quad \text{for all} \quad
-i \in \{1, \ldots, n\}.
+T = ((T_{1,1}, \ldots, T_{1,n}), \ldots (T_{m,1}, \ldots, T_{m,n}))
 \]
-The two-dimensional tensors can be seen as \emph{matricies}:
+of arrays of real numbers (with mutually equal lenght), and so on.
+
+Basically our tensors can be wieved as D-dimensional grids of real numbers.
+Example in 2-D:
 \[
-T = \begin{pmatrix}
-  T_{11} & \cdots & T_{1n} \\
-  \vdots  & \ddots & \vdots  \\
-  a_{m1} & \cdots & a_{mn}
- \end{pmatrix},
- \quad  T_{ij} \in \mathbb{R}
- \quad \text{for all} \quad (i,j) \in [1,\ldots, m] \times [1, \ldots, n].
+((1, 2, 3), (4, 5, 6), (7, 8, 9)) \quad \simeq \quad
+\begin{array}{c|c|c}
+  1 & 2 & 3 \\
+  \hline
+  4 & 5 & 6 \\
+  \hline
+  7 & 8 & 9
+ \end{array}
 \]
 
-One may notice that a $d$-dimensional tensor can be wieved as an array of
-$(d-1)$-dimensional tensors of the same type. That is, a vector is an array of
-scalars, a matrix is an array of vectors of the same length, a three-dimensional
-tensor is an array of matricies with the same $m \times n$ shape, and so on.
-
-There are also more abstract ways of defining tensors, which take into account
-the coordinate transformation rules for different types of tensors, but since in
-all our cases the coordinate system is fixed and the tensors are used merely for
-grouping of the calculations, the definition stated above is sufficient.
+There are also more elaborate ways of defining tensors, that take into account
+the type of the tensor, but these are not needed for our purposes.
 
 \section{References/Links}
 
