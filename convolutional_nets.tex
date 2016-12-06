@@ -14,7 +14,31 @@ It is based on the Chapter 9 of the book \emph{Deep Learning}.
 % Skeleton for the post: %
 
 \subsection{Definition}
-
+Convolution in continuous case:
+\[
+s(t) = \int x(a)w(t - a)da.
+\]
+Denoted as
+\[
+s(t) = (x * w)(t).
+\]
+Convolution in discrete case:
+\[
+s(t) = (x * w)(t) = \sum_{a = -\infty}^{\infty} x(a)w(t - a).
+\]
+2-D case:
+\[
+S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n).
+\]
+Commutative:
+\[
+S(i, j) = (K * I)(i, j) = \sum_m \sum_n I(i - m , j - n) K(m, n).
+\]
+When defined without kernel-flipping:
+\[
+S(i, j) = (K * I)(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n)
+\]
+(also known as cross-correlation).
 \subsection{Use of Convolutional Networks}
 
 \subsection{Benefits}
