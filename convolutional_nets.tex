@@ -58,8 +58,8 @@ Pictures: Local Connection, Tiled Convolution, Traditional Convolution
 
 \section{Tensors}
 
-We adopt the Deep Learning book's convention of calling multidimensional arrays
-of real numbers as tensors.
+We adopt the Deep Learning book's convention of defining tensors as
+multidimensional arrays of real numbers.
 
 Namely, 0-D tensors are just real numbers, 1-D tensors are arrays
 \[
@@ -71,7 +71,7 @@ T = ((T_{1,1}, \ldots, T_{1,n}), \ldots (T_{m,1}, \ldots, T_{m,n}))
 \]
 of arrays of real numbers (with mutually equal lenght), and so on.
 
-Basically our tensors can be wieved as D-dimensional grids of real numbers.
+Basically our tensors can be viewed as D-dimensional grids of real numbers.
 Example in 2-D:
 \[
 ((1, 2, 3), (4, 5, 6), (7, 8, 9)) \quad \simeq \quad
@@ -83,6 +83,7 @@ Example in 2-D:
   7 & 8 & 9
  \end{array}
 \]
+In general the sizes of the axes do not need to be equal.
 
 There are also more elaborate ways of defining tensors, that take into account
 the type of the tensor, but these are not needed for our purposes.
