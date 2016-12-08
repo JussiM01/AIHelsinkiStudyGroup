@@ -8,12 +8,24 @@
 
 \begin{document}
 \section{Convolutional Networks}
-This is a post written for the AI Helsinki study group \emph{Image and Video Statistics}.
-It is based on the Chapter 9 of the book \emph{Deep Learning}.
+This post is written for the AI Helsinki study group \emph{Image and Video Statistics}.
+It is based on the Chapter 9 of the book \emph{Deep Learning} by Ian Goodfellow,
+Yoshua Bengio and Aaron Courville, which is under preparation and available
+online at \url{http://www.deeplearningbook.org/}.
+
+We will assume the reader to be familiar with basic concepts of artificial
+neural networks, such as weights and biases. Some mathematical preliminaries are
+introduced in the text.
+
+Our goal is to introduce basic concepts related to convolutional neural networks,
+explain where they are used and what kind of benefits the convolutional
+structure offers.
 
 % Skeleton for the post: %
 
 \subsection{Definition}
+We begin by introducing the mathematical notion of convolution.
+
 Convolution in continuous case:
 \[
 s(t) = \int x(a)w(t - a)da.
@@ -43,53 +55,8 @@ S(i, j) = (K * I)(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n)
 Definition: "Convolutional networks are simply neural networks that use
 convolution in place of general matrix multiplication in at least one of their
 layers"
-\subsection{Use of Convolutional Networks}
-Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
 
-\subsection{Benefits}
-*Main: Modelling of large inputs while being computationally efficient.\\
-*Secondary: Spatial translations of inputs does not add problems.
-
-\subsection{Examples}
-(Pic of 2-D convolution, should be earlier?)
-
-\subsection{Sparse Connectivity}
-
-\subsection{Growing Receptive Fields}
-
-\subsection{Parameter Sharing}
-
-\subsection{Convolutional Network Components}
-
-\subsection{Max Pooling}
-Pictures: Without Shift, Shifted
-
-\subsection{Example of Learned Invariances}
-
-\subsection{Pooling with Down Sampling}
-
-\subsection{Examples of Architectures}
-
-\subsection{Convolution with Strides}
-
-\subsection{Zero Pading Enables Deeper Networks}
-
-\subsection{Comparison of Local Connections, Convolution, and Full Connections}
-Pictures: Local, Convolution, FC
-
-\subsection{Partial Connectivity Between Channels}
-
-\subsection{Tiled Convolution}
-Pictures: Local Connection, Tiled Convolution, Traditional Convolution
-
-\subsection{Recurent Convolutional Network}
-
-\subsection{Gabor Functions (optional)}
-
-\subsection{Gabor-like Learned Kernels (optional)}
-
-\section{Tensors}
-
+\subsection{Tensors}
 We adopt the Deep Learning book's convention of defining tensors as
 multidimensional arrays of real numbers.
 
@@ -115,11 +82,117 @@ Example in 2-D:
   7 & 8 & 9
  \end{array}
 \]
-In general the sizes of the axes do not need to be equal.
+In general case the sizes of the axes do not need to match.
 
-There are also more elaborate ways of defining tensors, that take into account
-the type of the tensor, but these are not needed for our purposes.
+% There are also more elaborate ways of defining tensors, that take into account
+% the type of the tensor, but these are not needed for our purposes.
 
-\section{References/Links}
+\subsection{Use of Convolutional Networks}
+Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
+
+\subsection{Benefits (submerge with previous section?)}
+*Main: Modelling of large inputs while being computationally efficient.\\
+*Secondary: Spatial translations of inputs does not add problems.
+
+\subsection{Examples}
+(Pic of 2-D convolution, should be earlier?)
+
+\subsection{Sparse Connectivity}
+One benefit of using convolutional layers is that there are fewer connections
+between the nodes. Only as many input nodes as there are weights in the
+convolution kernel are connected to every single node in the output nodes and
+vice versa.
+
+\[
+\text{Pic: 1-D, connections from inputs to single node in the outputs}
+\]
+
+\[
+\text{Pic: 1-D, connections from single input to nodes in the outputs}
+\]
+
+This is in drastic contrast to fully connected layers where there are connections
+from every input node to a given output node and vice versa.
+
+\subsection{Growing Receptive Fields}
+
+\subsection{Parameter Sharing}
+Another benefit of using convolution is that there are fewer parameters needed.
+Namely the weights of the convolution kernel are shared between similar type of
+connection.
+
+\[
+\text{Pic: illustration of the parameter sharing}
+\]
+
+Sometimes even the biases are shared in similar manner, but this type of
+parameter sharing is not often used.
+
+\subsection{Zero Pading Enables Deeper Networks}
+One drawback of using convolutional layers is that the layers shrink, which
+opposes limit to the depth of the network.
+\[
+\text{Pic: 1-D network with shrinking layers}
+\]
+This however can be compansated by
+adding zeros to the boundary of each neuron layer. That way we can prevent the
+sizes of the layers shrinking and obtain deeper networks.
+\[
+\text{Pic: 1-D network with zero panding and same size layers}
+\]
+The method discribed above is known as zero padding. One way to do it is to add
+just enough zeros that the layer sizes stays the same. Other more extreme option
+is to add so many zeros that the convolution can visit every neuron $k$ times,
+where $k$ is the size of the convolution kernel.
+\[
+\text{Pic: 2-D, original layer and layer with minimal pading}
+\]
+\[
+\text{Pic: 2-D, original layer and layer with maximal pading}
+\]
+One may notice that zero pading makes the outputs near the boundary to have less
+information from the inputs, especially if there is maximal amount of pading
+used. This may be compensated to some extend if the biases are not shared.
+\subsection{Max Pooling}
+Pictures: Without Shift, Shifted
+
+\subsection{Convolutional Network Components}
+
+% \subsection{Max Pooling}
+% Pictures: Without Shift, Shifted
+
+\subsection{Example of Learned Invariances}
+
+% \subsection{Pooling with Down Sampling}
+
+\subsection{Examples of Architectures}
+
+\subsection{Further Topics}
+* Pooling with Down Sampling (optional)
+* Convolution with Strides
+* Comparison of Local Connections, Convolution, and Full Connections (Optional)
+* Partial Connectivity Between Channels
+* Tiled Convolution (optional)
+* Recurent Convolutional Networks
+
+%\subsection{Convolution with Strides}
+
+%\subsection{Zero Pading Enables Deeper Networks}
+
+% \subsection{Comparison of Local Connections, Convolution, and Full Connections}
+% Pictures: Local, Convolution, FC
+
+% \subsection{Partial Connectivity Between Channels}
+
+% \subsection{Tiled Convolution}
+% Pictures: Local Connection, Tiled Convolution, Traditional Convolution
+
+% \subsection{Recurent Convolutional Networks}
+
+%\subsection{Gabor Functions (optional)}
+
+%\subsection{Gabor-like Learned Kernels (optional)}
+
+\subsection{References/Links}
 
 \end{document}
