@@ -49,11 +49,14 @@ S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n)
 \]
 where $I$ and $K$ represent two images and $i$ and $j$ are the pixel coordinates.
 
-One special property of convolution is that it is commutative, that is
-\[
- (K * I) = (K * I).
-\]
-Which is relatively easy to derive, especially for the discrete cases.
+In practice the input grid is finite, the filter is defined on a smaller grid and
+usually only applied when its coordinates are fully in contained in the input grid
+These technical details will be covered soon. 
+% One special property of convolution is that it is commutative, that is
+% \[
+%  (K * I) = (K * I).
+% \]
+% Which is relatively easy to derive, especially for the discrete cases.
 % When defined without kernel-flipping:
 % \[
 % S(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n)
