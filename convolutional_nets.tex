@@ -15,7 +15,7 @@
 This post is written for the AI Helsinki study group \emph{Image and Video Statistics}.
 It is based on the Chapter 9 of the book \emph{Deep Learning} by Ian Goodfellow,
 Yoshua Bengio and Aaron Courville, which is under preparation and available
-online at \url{http://www.deeplearningbook.org/}.
+online at \url{http://www.deeplearningbook.org}.
 
 We will assume the reader to be familiar with basic components of artificial
 neural networks, such as weights and biases. Some mathematical preliminaries are
@@ -28,37 +28,47 @@ structure offers.
 % Skeleton for the post: %
 
 \subsection{Definition}
-We begin by introducing the mathematical notion of convolution.
+We begin by introducing the mathematical notion of convolution. Let $x(t)$ and $w(t)$
+two functions then we define their convolution $x * w$ as
+\[
+(x * w)(t) = \int x(a)w(t - a)da.
+\]
+In practical applications $x$ could be some signal depending on the time $t$ and
+$w$ a filter applied to it.
 
-Convolution in continuous case:
+Obiously the data for which the convolution is applied usually is obtained only
+as a discrete input, in these cases we define the convolution by using
+summation:
 \[
-s(t) = \int x(a)w(t - a)da.
+(x * w)(t) = \sum_{a = -\infty}^{\infty} x(a)w(t - a).
 \]
-Denoted as
+Moreover, the data might be two dimensional, which is the case with images, then
+we use the follwing definition:
 \[
-s(t) = (x * w)(t).
+S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n)
 \]
-Convolution in discrete case:
-\[
-s(t) = (x * w)(t) = \sum_{a = -\infty}^{\infty} x(a)w(t - a).
-\]
-2-D case:
-\[
-S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n).
-\]
-Commutative:
-\[
-S(i, j) = (K * I)(i, j) = \sum_m \sum_n I(i - m , j - n) K(m, n).
-\]
-When defined without kernel-flipping:
-\[
-S(i, j) = (K * I)(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n)
-\]
-(also known as cross-correlation).
+where $I$ and $K$ represent two images and $i$ and $j$ are the pixel coordinates.
 
-Definition: "Convolutional networks are simply neural networks that use
-convolution in place of general matrix multiplication in at least one of their
-layers"
+One special property of convolution is that it is commutative, that is
+\[
+ (K * I) = (K * I).
+\]
+Which is relatively easy to derive, especially for the discrete cases.
+% When defined without kernel-flipping:
+% \[
+% S(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n)
+% \]
+% (also known as cross-correlation).
+
+We say that a neural network is convolutional if it uses convolutional filtering
+in at least one of its layers.
+
+\subsection{Use of Convolutional Networks}
+Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
+
+\subsection{Benefits (submerge with previous section?)}
+*Modelling of large inputs while being computationally efficient.\\
+*Invarians to small translations of inputs.
 
 \subsection{Tensors}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -91,14 +101,12 @@ In general case the sizes of the axes do not need to match.
 % There are also more elaborate ways of defining tensors, that take into account
 % the type of the tensor, but these are not needed for our purposes.
 
-\subsection{Use of Convolutional Networks}
-Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
+\subsection{Convolution via Tensors}
+*Stride\\
+*Channels\\
+*Formulas, etc.
 
-\subsection{Benefits (submerge with previous section?)}
-*Main: Modelling of large inputs while being computationally efficient.\\
-*Secondary: Spatial translations of inputs does not add problems.
-
-\subsection{Examples}
+\subsection{Examples (submerge with previous section?)}
 (Pic of 2-D convolution, should be earlier?)
 
 \subsection{Sparse Connectivity}
@@ -118,7 +126,7 @@ vice versa.
 This is in drastic contrast to fully connected layers where there are connections
 from every input node to a given output node and vice versa.
 
-\subsection{Growing Receptive Fields}
+\subsection{Growing Receptive Fields (optional ?)}
 
 \subsection{Parameter Sharing}
 Another benefit of using convolution is that there are fewer parameters needed.
@@ -132,7 +140,7 @@ connection.
 Sometimes even the biases are shared in similar manner, but this type of
 parameter sharing is not often used.
 
-\subsection{Zero Pading Enables Deeper Networks}
+\subsection{Zero Pading}
 One drawback of using convolutional layers is that the layers shrink, which
 opposes limit to the depth of the network.
 \[
@@ -142,7 +150,7 @@ This however can be compansated by
 adding zeros to the boundary of each neuron layer. That way we can prevent the
 sizes of the layers shrinking and obtain deeper networks.
 \[
-\text{Pic: 1-D network with zero panding and same size layers}
+\text{Pic: 1-D network with zero pading and same size layers}
 \]
 The method discribed above is known as zero padding. One way to do it is to add
 just enough zeros that the layer sizes stays the same. Other more extreme option
@@ -157,10 +165,36 @@ where $k$ is the size of the convolution kernel.
 One may notice that zero pading makes the outputs near the boundary to have less
 information from the inputs, especially if there is maximal amount of pading
 used. This may be compensated to some extend if the biases are not shared.
-\subsection{Max Pooling}
-Pictures: Without Shift, Shifted
+\subsection{(Max) Pooling}
+Typically pooling is used for down sampling, which means that the grid size of
+the data is reduced.
+\[
+\begin{array}{c|c|c|c}
+  0 & 1 & 3 & 9\\
+  \hline
+  4 & 8 & 6 & 2\\
+  \hline
+  7 & 4 & 2 & 0\\
+  \hline
+  4 & 3 & 5 & 1\\
+ \end{array}
+ \quad \mapsto \quad
+ \begin{array}{c|c}
+   8 & 9\\
+   \hline
+   7 & 5
+  \end{array}
+ \]
+\begin{center}Example in 2-D: max pooling with $2\times2$ kernel and stride = 2.\end{center}
+Another benefit of max pooling with down sampling is that it is not so sensitive
+to small translations. If we take to grids, which are small translations of each
+other, and compare the pooled grid, we see that many of the values are same.
+\[
+\text{Pic: Without Shift, Shifted}
+\]
 
 \subsection{Convolutional Network Components}
+Typically: (convolution, Relu, pooling) x $N_1$, followed by FC x $N_2$
 
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
@@ -170,19 +204,17 @@ Pictures: Without Shift, Shifted
 % \subsection{Pooling with Down Sampling}
 
 \subsection{Examples of Architectures}
+Explanations and pics
 
 \subsection{Further Topics}
 In this last section we will mention briefly some of the topics presented in the
 Chapter 9 of the Deep Learning book that we have not yet covered.
 
 There are variants of the usual way of doing the convolution...
-
-* Pooling with Down Sampling (optional)
-* Convolution with Strides
-* Comparison of Local Connections, Convolution, and Full Connections (Optional)
-* Partial Connectivity Between Channels
-* Tiled Convolution (optional)
-* Recurent Convolutional Networks
+\newline
+*Comparison of Local Connections, Convolution, and FC (Optional)\\
+*Tiled Convolution (optional)\\
+*Recurent Convolutional Networks
 
 %\subsection{Convolution with Strides}
 
@@ -202,15 +234,20 @@ There are variants of the usual way of doing the convolution...
 
 %\subsection{Gabor-like Learned Kernels (optional)}
 
-\subsection{References/Links}
-* Main source:
+\subsection{Links}
+* Our main source:
 
-\url{http://www.deeplearningbook.org/}\\
-* Video of the basics of convolutional networks:
+\url{http://www.deeplearningbook.org}\\
+* Video with very basics of convolutional networks:
 
 \url{https://www.youtube.com/watch?v=JiN9p5vWHDY}\\
-* Video of slightly more advanced topics:
+* Video with slightly more advanced level introduction:
+
+\url{https://www.youtube.com/watch?v=FmpDIaiMIeA}\\
+* Video of a conference presentation:
 
 \url{https://www.youtube.com/watch?v=AQirPKrAyDg}
+
+
 
 \end{document}
