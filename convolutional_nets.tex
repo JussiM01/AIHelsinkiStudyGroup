@@ -104,7 +104,10 @@ In general case the sizes of the axes do not need to match.
 \subsection{Convolution via Tensors}
 *Stride\\
 *Channels\\
-*Formulas, etc.
+*Formulas, etc.\\
+(convolution with $1\times 1$)... traditional fully connected layer can be seen
+as other extreme case, with zero stride and kernel grid size been equal to the
+input grid size.
 
 \subsection{Examples (submerge with previous section?)}
 (Pic of 2-D convolution, should be earlier?)
@@ -125,6 +128,12 @@ vice versa.
 
 This is in drastic contrast to fully connected layers where there are connections
 from every input node to a given output node and vice versa.
+
+For example, if we have an image with $28 \times 28$ pixels grid, like the images
+in the MNIST data set have, and we convolve it with $3 \times 3$ filter. Then
+there are only $3 \cdot 3 = 9$ connections from input nodes to single output node,
+where as in fully connected layer there would be $28 \cdot 28 = 784$ connections
+to single output node. And similarly with roles of the input and output nodes reversed.
 
 \subsection{Growing Receptive Fields (optional ?)}
 
@@ -204,7 +213,10 @@ Typically: (convolution, Relu, pooling) x $N_1$, followed by FC x $N_2$
 % \subsection{Pooling with Down Sampling}
 
 \subsection{Examples of Architectures}
-Explanations and pics
+We give here two examples of convolutional network architectures. Namely, one
+which is fairly classical and another which is from this year (2016).
+
+...Explanations and pics...
 
 \subsection{Further Topics}
 In this last section we will mention briefly some of the topics presented in the
