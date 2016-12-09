@@ -51,7 +51,7 @@ where $I$ and $K$ represent two images and $i$ and $j$ are the pixel coordinates
 
 In practice the input grid is finite, the filter is defined on a smaller grid and
 usually only applied when its coordinates are fully in contained in the input grid
-These technical details will be covered soon. 
+These technical details will be covered soon.
 % One special property of convolution is that it is commutative, that is
 % \[
 %  (K * I) = (K * I).
@@ -67,7 +67,14 @@ We say that a neural network is convolutional if it uses convolutional filtering
 in at least one of its layers.
 
 \subsection{Use of Convolutional Networks}
-Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
+Convolutional networks are particularlly useful in speech recognition and image
+classification, since they can learn to be invariant to small translational
+perturbations in the input, such as certain word pronaunced slightly differently
+or recognizing image of face with silghlty different features.
+
+They also effective in ...
+%
+% Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
 
 \subsection{Benefits (submerge with previous section?)}
 *Modelling of large inputs while being computationally efficient.\\
