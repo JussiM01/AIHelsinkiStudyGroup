@@ -50,7 +50,7 @@ S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n)
 where $I$ and $K$ represent two images and $i$ and $j$ are the pixel coordinates.
 
 In practice the input grid is finite, the filter is defined on a smaller grid and
-usually only applied when its coordinates are fully in contained in the input grid
+usually only applied when its coordinates are fully contained in the input grid.
 These technical details will be covered soon.
 % One special property of convolution is that it is commutative, that is
 % \[
@@ -63,8 +63,12 @@ These technical details will be covered soon.
 % \]
 % (also known as cross-correlation).
 
-We say that a neural network is convolutional if it uses convolutional filtering
-in at least one of its layers.
+We say that a neural network is convolutional if it has at least one convolutional
+layer in it. This layer applies convolutional filtering to its input data.
+Typically it can have several channels which may apply different filters. The
+output is then passed to activations and a pooling layer. Sometimes these are also
+seen as parts of the convolutional layer, so the terminology may vary in
+different sources.
 
 \subsection{Benefits of Convolutional Networks}
 Convolutional networks are particularlly useful in speech recognition and image
