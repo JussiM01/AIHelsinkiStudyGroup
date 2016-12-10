@@ -66,19 +66,21 @@ These technical details will be covered soon.
 We say that a neural network is convolutional if it uses convolutional filtering
 in at least one of its layers.
 
-\subsection{Use of Convolutional Networks}
+\subsection{Benefits of Convolutional Networks}
 Convolutional networks are particularlly useful in speech recognition and image
-classification, since they can learn to be invariant to small translational
-perturbations in the input, such as certain word pronaunced slightly differently
-or recognizing image of face with silghlty different features.
+classification, since they can learn to be unsensitive to local translations in the
+input. For example, convolutional network can learn to classify different faces as
+been an image of a face even though individual faces have slight variation in
+the positions of different facial features.
 
-They also effective in ...
-%
-% Used to process data that has a grid-like structure (e.g. images, 1-D: sound?)
+Besides the classificational aspescts, convolution is also effective in the sence
+that it uses fewer connections and shared parameters, which reduces the
+computational cost and memory requirements. In deep networks this difference is
+significant.
 
-\subsection{Benefits (submerge with previous section?)}
-*Modelling of large inputs while being computationally efficient.\\
-*Invarians to small translations of inputs.
+We will examine sparse connectivity and parameter sharing later, after we
+have first introduced tensors and shown how differnt type of convolutions are
+represented with them.
 
 \subsection{Tensors}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -122,11 +124,14 @@ input grid size.
 \subsection{Examples (submerge with previous section?)}
 (Pic of 2-D convolution, should be earlier?)
 
-\subsection{Sparse Connectivity}
-One benefit of using convolutional layers is that there are fewer connections
-between the nodes. Only as many input nodes as there are weights in the
-convolution kernel are connected to every single node in the output nodes and
-vice versa.
+\subsection{Sparse Connectivity and Parameter Sharing}
+As mentoned earlier, in a convolutional layer there are fewer connections
+between the nodes compared to fully connected layers and the same weights are used
+with multiple connections. We will now illuminate this with some visualizations
+and estimates.
+
+Only as many input nodes as there are weights in the convolution kernel are
+connected to every single node in the output nodes and vice versa.
 
 \[
 \text{Pic: 1-D, connections from inputs to single node in the outputs}
@@ -145,12 +150,9 @@ there are only $3 \cdot 3 = 9$ connections from input nodes to single output nod
 where as in fully connected layer there would be $28 \cdot 28 = 784$ connections
 to single output node. And similarly with roles of the input and output nodes reversed.
 
-\subsection{Growing Receptive Fields (optional ?)}
-
-\subsection{Parameter Sharing}
 Another benefit of using convolution is that there are fewer parameters needed.
 Namely the weights of the convolution kernel are shared between similar type of
-connection.
+connections.
 
 \[
 \text{Pic: illustration of the parameter sharing}
@@ -211,6 +213,8 @@ other, and compare the pooled grid, we see that many of the values are same.
 \[
 \text{Pic: Without Shift, Shifted}
 \]
+
+\subsection{Growing Receptive Fields (optional ?)}
 
 \subsection{Convolutional Network Components}
 Typically: (convolution, Relu, pooling) x $N_1$, followed by FC x $N_2$
