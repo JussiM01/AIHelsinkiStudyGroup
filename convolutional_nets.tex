@@ -76,12 +76,33 @@ It is not commutative, but from practical point of view this dos not make any di
 since commutativity is not needed and the network can learn its parameters with
 respect to either of these kernels.
 
-We say that a neural network is convolutional if it has at least one convolutional
-layer in it. This layer first applies convolutional filtering to its input data,
-after which the data is passed trough a nonlinearity and a pooling stage. Typically
-the layer can have several input and output channels which process the data parallely.
+We say that a neural network is convolutional if it uses convolution in at least
+one of its layers.
 
-\subsection{Tensors and Convolutional Stage}
+% We say that a neural network is convolutional if it has at least one convolutional
+% layer in it. This layer first applies convolutional filtering to its input data,
+% after which the data is passed trough a nonlinearity and a pooling stage. Typically
+% the layer can have several input and output channels which process the data parallely.
+
+\subsection{Convolutional Networks Structure and Output}
+Here we give an example layout for convolutional networks structure. We will also
+consider what type of outputs convoltional network can have. Individual layers are
+presented later.
+
+Typically the first layer in a convolutional network is convolutional. It is followed
+by nonlinearity. Often after this there is some type of pooling layer, usually max
+pooling. This type of structure is repeated multiple times. The final layers are
+fully connected and responsible for the one hot encoding of the output.
+
+In the previous scheme the output is an array with one entry equal to one and others
+zero, representing a membership of a given class. Optionally the output can be
+also other type of array (for example probalities that the image has an object
+in a given class), a real number (in the case of regression), or even a
+tensor (tensors will be explained in the next section) which tells a probability
+that a given pixels is part of an object in a given class. Specifics of these are
+not considered in this text.
+
+\subsection{Tensors and Convolutional Layer}
 We adopt the Deep Learning book's convention of defining tensors as
 multidimensional arrays of real numbers.
 
@@ -113,8 +134,11 @@ In general case the sizes of the axes do not need to match.
 % the type of the tensor, but these are not needed for our purposes.
 
 \subsection{(submerge to previous, when ready)}
-Output of the convolutional stage at pixel $(j, k)$ of the channel $i$ is
+Typically convolution network has several channels which may correspond to differnt
+colors in the image or they may originate from same input image which is processed
+in different ways parallely.
 
+Output of the convolutional layer at pixel $(j, k)$ of the channel $i$ is
 \[
 Z_{i, j, k} = \sum_{l, m, n} V_{l, j + m -1, k + n -1} K_{i, l, m, n}
 \]
@@ -191,17 +215,16 @@ Hyperbolic tangent function also known as \emph{tanh}, defined by
 f(x) = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}.
 \]
 
-A nonlinearity is applied after convolutional stage in a convolutional layer. Its
-output is defined as
+A nonlinearity is applied after convolutional layer. Its output is defined as
 \[
-T_{i,j,k} = f(... + b_{i,j,k})
+T_{i,j,k} = f(Z_{i, j, k} + b_{i,j,k})
 \]
-where $...$ is the output of the convolution and $b_{i, j, k}$ is the bias unit,
-which is often shared between units in the same channel, that is
+where $Z_{i, j, k}$ is the output of the convolution and $b_{i, j, k}$ is the bias
+unit, which is often shared between units in the same channel, that is
 \[
 b_{i, j, k} = b_i \quad \text{for all $j$ and $k$}
 \]
-where $j$ and $k$ are the positional indicies and $i$ is the channel index.
+where $j$ and $k$ are the pixel indicies and $i$ is the channel index.
 
 In some case however, for example if objects in a set of images are known to be
 in the center of the images, it may be more convinient to allow the biases to vary
@@ -268,17 +291,6 @@ to it are known as receptive field.
 Although the receptive field for single convolutional layer is small due to sparse
 connections, it grows when there are more layers added to the network and it can
 even cover the whole input grid if the network has enough layers.
-
-\subsection{Convolutional Networks Structure and Output}
-Typically the first layers in a convolutional network are convolutional. The final
-layers are fully connected and responsible for the one hot encoding of the output.
-
-Optionally the output can be also...
-
-*Output can be a real number (regression, is this without FC layers?)
-
-*Output can be tensor of propabilities of member ship in a class. (This may need
-recurent structure in order to work well, check from the book!)
 
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
