@@ -77,7 +77,7 @@ These technical details will be covered soon.
 We say that a neural network is convolutional if it has at least one convolutional
 layer in it. This layer first applies convolutional filtering to its input data,
 after which the data is passed trough a nonlinearity and a pooling stage. Typically
-the layer can have several channels which may apply different filters.
+the layer can have several channels which apply different filters.
 
 \subsection{Tensors and Convolutional Stage}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -110,13 +110,26 @@ In general case the sizes of the axes do not need to match.
 % There are also more elaborate ways of defining tensors, that take into account
 % the type of the tensor, but these are not needed for our purposes.
 
-\subsection{Convolution via Tensors (submerge to previous)}
-*Stride\\
-*Channels\\
+\subsection{(submerge to previous, when ready)}
+(Add to definition convolution without kernel fliping and explanation of why sum
+can be in the first function instead of last ?)
+
+\[
+Z_{i, j, k} = \sum_{l, m, n} V_{l, j + m -1, k + n -1} K_{i, l, m, n}
+\]
+where $K_{i, l, m, n}$ is the weight of the connection from input in channel $j$
+to output in channel $i$, both having row index $k$ and column index $l$. The output
+value has channel index $i$, row index $j$ and column index $k$.\\
+With stride:
+
+\[
+Z_{i, j, k} = c(K, V, s) =
+\sum_{l, m, n} V_{l, (j -1)\times s + m, (k-1)\times s + n} K_{i, l, m, n}
+\]
 *Tiled (optional?)\\
 *Local connections (optional?)\\
 *Formulas, etc.\\
-(convolution with $1\times 1$)... traditional fully connected layer can be seen
+... traditional fully connected layer can be seen
 as other extreme case, with zero stride and kernel grid size been equal to the
 input grid size.
 
@@ -186,9 +199,9 @@ T_{i,j,k} = f(... + b_{i,j,k})
 where $...$ is the output of the convolution and $b_{i, j, k}$ is the bias unit,
 which is often shared between units in the same channel, that is
 \[
-b_{i, j, k} = b_k \quad \text{for all $i$ and $j$}
+b_{i, j, k} = b_i \quad \text{for all $j$ and $k$}
 \]
-where $i$ and $j$ are the positional indicies and $k$ is the channel index.
+where $j$ and $k$ are the positional indicies and $i$ is the channel index.
 
 In some case however, for example if objects in a set of images are known to be
 in the center of the images, it may be more convinient to allow the biases to vary
@@ -260,7 +273,12 @@ even cover the whole input grid if the network has enough layers.
 Typically the first layers in a convolutional network are convolutional. The final
 layers are fully connected and responsible for the one hot encoding of the output.
 
-Optionally ...
+Optionally the output can be also...
+
+*Output can be a real number (regression, is this without FC layers?)
+
+*Output can be tensor of propabilities of member ship in a class. (This may need
+recurent structure in order to work well, check from the book!)
 
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
