@@ -54,7 +54,7 @@ summation:
 (x * w)(t) = \sum_{a = -\infty}^{\infty} x(a)w(t - a).
 \]
 Moreover, the data might be two dimensional, which is the case with images, then
-we use the follwing definition:
+we use the following definition:
 \[
 S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n)
 \]
@@ -160,36 +160,39 @@ input grid size.
 % convolutional layer has only as meny weight parameters as the convolution kernel
 % has.
 
-\subsection{Zero Padding}
-One drawback of using convolutional layers is that they shrink size of the data
-grid, which opposes limit to the depth of the network.
-\[
-\text{Pic: 1-D network with shrinking layers}
-\]
-This however can be compansated by
-adding zeros to the boundary of each neuron layer. That way we can prevent the
-sizes of the layers shrinking and obtain deeper networks.
-\[
-\text{Pic: 1-D network with zero pading and same size layers}
-\]
-The method discribed above is known as zero padding. One way to do it is to add
-just enough zeros that the layer sizes stays the same. Other more extreme option
-is to add so many zeros that the convolution can visit every neuron $k$ times,
-where $k$ is the size of the convolution kernel.
-\[
-\text{Pic: 2-D, original layer and layer with minimal pading}
-\]
-\[
-\text{Pic: 2-D, original layer and layer with maximal pading}
-\]
-One may notice that zero padding makes the outputs near the boundary to have less
-information from the inputs, especially if there is maximal amount of pading
-used. This may be compensated to some extend if the biases are not shared (which
-usually is the case).
+\subsection{Nonlinearities}
+Some of the typical nonlinearities used in convolutional networks are:
 
-\subsection{Nonlinearities (or just ReLu?)}
-Like in regular neural network there are...
+Rectified linear unit also known as \emph{ReLu}, defined by
+\[
+f(x) = \max(x, 0).
+\]
 
+Logistic funtion also known as \emph{sigmoid}, defined by
+\[
+f(x) = \frac{1}{1 + \exp(-x)}.
+\]
+
+Hyperbolic tangent function also known as \emph{tanh}, defined by
+\[
+f(x) = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}.
+\]
+
+A nonlinearity is applied after convolutional stage in a convolutional layer. Its
+output is defined as
+\[
+T_{i,j,k} = f(... + b_{i,j,k})
+\]
+where $...$ is the output of the convolution and $b_{i, j, k}$ is the bias unit,
+which is often shared between units in the same channel, that is
+\[
+b_{i, j, k} = b_k \quad \text{for all $i$ and $j$}
+\]
+where $i$ and $j$ are the positional indicies and $k$ is the channel index.
+
+In some case however, for example if objects in a set of images are known to be
+in the center of the images, it may be more convinient to allow the biases to vary
+with respect to location.
 
 \subsection{(Max) Pooling}
 Typically pooling is used for down sampling, which means that the grid size of
@@ -219,15 +222,51 @@ other, and compare the pooled grid, we see that many of the values are the same.
 \text{Pic: Without Shift, Shifted}
 \]
 
-\subsection{Convolutional Networks Structure}
+\subsection{Zero Padding}
+One drawback of using convolutional layers is that they shrink size of the data
+grid, which opposes limit to the depth of the network.
+\[
+\text{Pic: 1-D network with shrinking layers}
+\]
+This however can be compansated by
+adding zeros to the boundary of each neuron layer. That way we can prevent the
+sizes of the layers shrinking and obtain deeper networks.
+\[
+\text{Pic: 1-D network with zero pading and same size layers}
+\]
+The method discribed above is known as zero padding. One way to do it is to add
+just enough zeros that the layer sizes stays the same. Other more extreme option
+is to add so many zeros that the convolution can visit every neuron $k$ times,
+where $k$ is the size of the convolution kernel.
+\[
+\text{Pic: 2-D, original layer and layer with minimal padding}
+\]
+\[
+\text{Pic: 2-D, original layer and layer with maximal padding}
+\]
+One may notice that zero padding makes the outputs near the boundary to have less
+information from the inputs, especially if there is maximal amount of padding
+used. This may be compensated to some extend if the biases are not shared.
+
+\subsection{Receptive Field}
+For a given node the nodes in the previous layers which are directly connected
+to it are known as receptive field.
+
+Although the receptive field for single convolutional layer is small due to sparse
+connections, it grows when there are more layers added to the network and it can
+even cover the whole input grid if the network has enough layers.
+
+\subsection{Convolutional Networks Structure and Output}
 Typically the first layers in a convolutional network are convolutional. The final
 layers are fully connected and responsible for the one hot encoding of the output.
+
+Optionally ...
 
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
 
-\subsection{Example of Learned Invariances}
-Explanation (no pics)
+\subsection{Learned Invariances and Feature Detectors}
+Examples, Explanation (no pics)
 % \subsection{Pooling with Down Sampling}
 
 % \subsection{Examples of Architectures}
@@ -235,14 +274,6 @@ Explanation (no pics)
 % which is fairly classical and another which is from this year (2016).
 %
 % ...Explanations and pics...
-
-\subsection{Growing Receptive Fields (submerge to previous?)}
-For a given node the nodes in the previous layers which are directly connected
-to it are known as receptive field.
-
-Although the receptive field for single convolutional layer is small due to sparse
-connections, it grows when there are more layers in the network and it can even
-cover the whole input grid if the network has enough layers.
 
 \subsection{Further Topics (Optional ?)}
 In this last section we will mention briefly some of the topics presented in the
@@ -252,6 +283,7 @@ There are variants of the usual way of doing the convolution...
 \newline
 *Comparison of Local Connections, Convolution, and FC (Optional)\\
 *Tiled Convolution (optional)\\
+*Training of the network\\
 *Recurent Convolutional Networks
 
 %\subsection{Convolution with Strides}
