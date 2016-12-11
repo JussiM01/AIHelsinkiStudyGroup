@@ -62,22 +62,24 @@ where $I$ and $K$ represent two images and $i$ and $j$ are the pixel coordinates
 
 In practice the input grid is finite, the filter is defined on a smaller grid and
 usually only applied when its coordinates are fully contained in the input grid.
-These technical details will be covered soon.
-% One special property of convolution is that it is commutative, that is
-% \[
-%  (K * I) = (K * I).
-% \]
-% Which is relatively easy to derive, especially for the discrete cases.
-% When defined without kernel-flipping:
-% \[
-% S(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n)
-% \]
-% (also known as cross-correlation).
+One special property of convolution is that it is commutative, that is
+\[
+ (K * I) = (K * I).
+\]
+Which is relatively easy to derive, especially for the discrete cases. Many machine
+learning libraries actually defined convolution as
+\[
+S(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n),
+\]
+which is also known as cross-correlation or convolution without kernel-flipping.
+It is not commutative, but from practical point of view this dos not make any difference
+since commutativity is not needed and the network can learn its parameters with
+respect to either of these kernels.
 
 We say that a neural network is convolutional if it has at least one convolutional
 layer in it. This layer first applies convolutional filtering to its input data,
 after which the data is passed trough a nonlinearity and a pooling stage. Typically
-the layer can have several channels which apply different filters.
+the layer can have several input and output channels which process the data parallely.
 
 \subsection{Tensors and Convolutional Stage}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -111,15 +113,13 @@ In general case the sizes of the axes do not need to match.
 % the type of the tensor, but these are not needed for our purposes.
 
 \subsection{(submerge to previous, when ready)}
-(Add to definition convolution without kernel fliping and explanation of why sum
-can be in the first function instead of last ?)
+Output of the convolutional stage at pixel $(j, k)$ of the channel $i$ is
 
 \[
 Z_{i, j, k} = \sum_{l, m, n} V_{l, j + m -1, k + n -1} K_{i, l, m, n}
 \]
 where $K_{i, l, m, n}$ is the weight of the connection from input in channel $j$
-to output in channel $i$, both having row index $k$ and column index $l$. The output
-value has channel index $i$, row index $j$ and column index $k$.\\
+to output in channel $i$, both having row index $k$ and column index $l$.\\
 With stride:
 
 \[
