@@ -281,9 +281,17 @@ with respect to location.
 
 \subsection{Pooling}
 Typically pooling is used for down sampling, which means that the grid size of
-the data is reduced. Method that is most often used nowadays is max pooling. ...
+the data is reduced. Method that is most often used nowadays is max pooling and
+it output is defined as
+\[
+T_{j,k} = \max \{V_{s \cdot j + \alpha, s \cdot k + \beta} |
+\text{ for $(\alpha, \beta) \in [1,\ldots b] \times  [1,\ldots b]$} \}
+\]
+where $s$ is the stride, $b$ is the width of the max pooling kernel and we have
+omited the channel index for the sake of clarity. Often max pooling is used with
+$s = b > 1$, which has the efect of shrinking the data grid by factor $s$.
 
-Example in 2-D, max pooling with $2\times2$ kernel and $s = 2$ stride:
+Example in 2-D, max pooling with both $s$ and kernel width set to 2:
 \[
 \begin{array}{|c|c|c|c|}
   \hline
@@ -306,12 +314,9 @@ Example in 2-D, max pooling with $2\times2$ kernel and $s = 2$ stride:
   \end{array}
  \]
 % \begin{center}Example in 2-D: max pooling with $2\times2$ kernel and stride = 2.\end{center}
-Another benefit of max pooling with down sampling is that it is not so sensitive
-to small translations. If we take to grids, which are small translations of each
-other, and compare the pooled grid, we see that many of the values are the same.
-\[
-\text{Pic: Without Shift, Shifted}
-\]
+
+Benefit of using pooling with down sampling is that it can help the net work
+to learn invariancies with respect to small.....
 
 % \subsection{Zero Padding}
 % As we saw earlier, one drawback of using convolutional layers is that they shrink
@@ -340,6 +345,15 @@ other, and compare the pooled grid, we see that many of the values are the same.
 % information from the inputs, especially if there is maximal amount of padding
 % used. This may be compensated to some extend if the biases are not shared.
 
+\subsection{Parse Connections}
+It can be now seen that a value of output node of a convolutional or pooling layer
+is only affected by a set of nodes of the sizes of the kernel of convolution or
+pooling. Similarly, the nodes in the input effect only as many values as the size
+of the kernel (or some times even less if a stride is used). This is in great contrast
+to fully connected layers where every node in the input is connected to every node
+in the output nodes.
+
+
 \subsection{Receptive Field}
 For a given node the nodes in the previous layers which are directly connected
 to it are known as receptive field.
@@ -351,8 +365,8 @@ and it can even cover the whole input image if the network has enough layers.
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
 
-\subsection{Learned Invariances}
-Examples, Explanation (no pics)
+\subsection{Learned Invariances (Include into Pooling?)}
+Examples, (small sift & rotational invariance) Explanation (no pics)
 
 \subsection{Training}
 
