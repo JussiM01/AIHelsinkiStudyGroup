@@ -29,8 +29,8 @@ individual faces having slight variation in the positions of facial features.
 
 Besides the classificational aspescts, convolution is also effective in the sence
 that it uses fewer connections and shared parameters, which reduces the
-computational cost and memory requirements. In deep networks this difference is
-significant.
+computational cost and memory requirements and improves the statistical efficiency.
+In deep networks this difference is significant.
 
 % We will examine sparse connectivity and parameter sharing later, after we
 % have first introduced tensors and shown how differnt type of convolutions are
@@ -86,21 +86,20 @@ one of its layers.
 
 \subsection{Convolutional Networks Structure and Output}
 Here we give an example layout for convolutional networks structure. We will also
-consider what type of outputs convoltional network can have. Individual layers are
+consider what type of outputs convolutional network can have. Individual layers are
 presented later.
 
 Typically the first layer in a convolutional network is convolutional. It is followed
 by nonlinearity. Often after this there is some type of pooling layer, usually max
-pooling. This type of structure is repeated multiple times. The final layers are
+pooling. This type of structure can be then repeated multiple times. The final layers are
 fully connected and responsible for the one hot encoding of the output.
 
 In the previous scheme the output is an array with one entry equal to one and others
-zero, representing a membership of a given class. Optionally the output can be
-also other type of array (for example probalities that the image has an object
-in a given class), a real number (in the case of regression), or even a
-tensor (tensors will be explained in the next section) which tells a probability
-that a given pixels is part of an object in a given class. Specifics of these are
-not considered in this text.
+zero, representing a membership of a given class. Other optional output types could
+be for example, an array with estimated probabilities that the image has an object in
+a given class, a tensor (tensors will be explained in the next section) which tells
+estimated probabilities that a given pixels is part of an object in a given class.
+Specifics of these are not covered in this text.
 
 \subsection{Tensors and Convolutional Layer}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -136,7 +135,15 @@ In general case the sizes of the axes do not need to match.
 \subsection{(submerge to previous, when ready)}
 Typically convolution network has several channels which may correspond to differnt
 colors in the image or they may originate from same input image which is processed
-in different ways parallely.
+in different ways in parallel.
+
+In the following we assume that that input gird has spatial shape of $a \times a$
+and the convolution kernel $K$ has the spatial shape of $b \times b$.
+Both of these are positive integers and
+\[
+a = b N \quad \text{for some $N > 1$.}
+\]
+Furthermore, the shapes are independent of the channel been used.
 
 Output of the convolutional layer at pixel $(j, k)$ of the channel $i$ is
 \[
