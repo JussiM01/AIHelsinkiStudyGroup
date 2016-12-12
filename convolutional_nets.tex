@@ -42,66 +42,73 @@ In deep networks this difference is significant.
 % Skeleton for the post: %
 
 \subsection{Definition}
-We begin by introducing the mathematical notion of convolution. Let $x(t)$ and $w(t)$
-two functions then we define their convolution $x * w$ as
+We begin by recalling the mathematical notion of convolution.
+Since we are dealing with images, the input data is two dimensional and the convolution
+$(I * K)$ is defined as
+% Let $x(t)$ and $w(t)$
+% two functions then we define their convolution $x * w$ as
+% \[
+% (x * w)(t) = \int x(a)w(t - a)da.
+% \]
+% In practical applications $x$ could be some signal depending on the time $t$ and
+% $w$ a filter applied to it.
+%
+% Obiously the data for which the convolution is applied usually is obtained only
+% as a discrete input, in these cases we define the convolution by using
+% summation:
+% \[
+% (x * w)(t) = \sum_{a = -\infty}^{\infty} x(a)w(t - a).
+% \]
+% Moreover, the data might be two dimensional, which is the case with images, then
+% we use the following definition:
 \[
-(x * w)(t) = \int x(a)w(t - a)da.
+(I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n)
 \]
-In practical applications $x$ could be some signal depending on the time $t$ and
-$w$ a filter applied to it.
-
-Obiously the data for which the convolution is applied usually is obtained only
-as a discrete input, in these cases we define the convolution by using
-summation:
-\[
-(x * w)(t) = \sum_{a = -\infty}^{\infty} x(a)w(t - a).
-\]
-Moreover, the data might be two dimensional, which is the case with images, then
-we use the following definition:
-\[
-S(i, j) = (I * K)(i, j) = \sum_m \sum_n I(m , n) K(i - m, j - n)
-\]
-where $I$ and $K$ represent two images and $i$ and $j$ are the pixel coordinates.
-
-In practice the input grid is finite, the filter is defined on a smaller grid and
-usually only applied when its coordinates are fully contained in the input grid.
-One special property of convolution is that it is commutative, that is
+where $I$ is an images, $K$ is a filter applied to it, $i$ and $j$ are the
+pixel coordinates. One special property of convolution is that it is commutative, that is
 \[
  (K * I) = (K * I).
 \]
-Which is relatively easy to derive. Many machine learning libraries actually
-defined convolution as
+Which is relatively easy to derive.
+
+In practice the input grid is finite, the filter is defined on a smaller grid and
+usually only applied when its coordinates are fully contained in the input grid.
+
+Many machine learning libraries actually defined convolution as
 \[
-S(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n),
+(I * K)(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n),
 \]
 which is also known as cross-correlation or convolution without kernel-flipping.
-It is not commutative, but from practical point of view this dose not make any difference
+It is not commutative, but from a practical point of view this dose not make any difference
 since commutativity is not needed and the network can learn its parameters with
 respect to either of these convolutions.
 
-We say that a neural network is convolutional if it uses convolution in at least
-one of its layers.
+We say that a neural network is convolutional if it uses convolution in place of
+general matrix multiplication in at least one of its layers.
 
 % We say that a neural network is convolutional if it has at least one convolutional
 % layer in it. This layer first applies convolutional filtering to its input data,
 % after which the data is passed trough a nonlinearity and a pooling stage. Typically
 % the layer can have several input and output channels which process the data parallely.
 
-\subsection{Convolutional Networks Structure and Output}
+\subsection{Convolutional Networks Structure}
 Here we give an example layout for convolutional networks structure. We will also
 consider what type of outputs convolutional network can have. Individual layers are
 presented later.
 
-Typically the first layer in a convolutional network is convolutional. It is followed
-by nonlinearity. Often after this there is some type of pooling layer, usually max
-pooling. This type of structure can then be repeated multiple times. The final layers are
-fully connected and responsible for the one hot encoding of the output.
+Typically the first layer in a convolutional network is convolutional. After this
+the output is passed trough a nonlinearity, at this point there might be a pooling
+layer. This type of structure can then be repeated multiple times. The final layers
+are usually fully connected and responsible for the one hot encoding of the output.
 
-In the previous scheme the output is an array with one entry equal to one and others
-zero, representing a membership of a given class. Other optional output types could
-be for example, an array with estimated probabilities that the image has an object in
-a given class, a tensor (tensors will be explained in the next section) which tells
-estimated probabilities that a given pixels is part of an object in a given class.
+% The network can be made without the one hot encoding. In this case the output could
+% represent a probabilty estimate for object detection even at a pixel level, which
+% could be used for identifing
+% In the previous scheme the output is an array with one entry equal to one and others
+% zero, representing a membership of a given class. Other optional output types could
+% be for example, an array with estimated probabilities that the image has an object in
+% a given class, a tensor (tensors will be explained in the next section) which tells
+% estimated probabilities that a given pixels is part of an object in a given class.
 
 \subsection{Tensors and Convolutional Layer}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -121,12 +128,14 @@ Basically our tensors can be viewed as D-dimensional grids of real numbers.
 Example in 2-D:
 \[
 ((1, 2, 3), (4, 5, 6), (7, 8, 9)) \quad \simeq \quad
-\begin{array}{c|c|c}
+\begin{array}{|c|c|c|}
+  \hline
   1 & 2 & 3 \\
   \hline
   4 & 5 & 6 \\
   \hline
-  7 & 8 & 9
+  7 & 8 & 9 \\
+  \hline
  \end{array}
 \]
 In general case the sizes of the axes do not need to match.
@@ -134,47 +143,68 @@ In general case the sizes of the axes do not need to match.
 % There are also more elaborate ways of defining tensors, that take into account
 % the type of the tensor, but these are not needed for our purposes.
 
-\subsection{(submerge to previous, when ready)}
-Typically convolution network has several channels which may correspond to differnt
+Typically convolutional network has several channels which may correspond to different
 colors in the image or they may originate from same input image which is processed
 in different ways in parallel.
 
-In the following we assume that that input gird has spatial shape of $a \times a$
-and the convolution kernel $K$ has the spatial shape of $b \times b$.
-Both of these are positive integers and
-\[
-a = b n \quad \text{for some $n > 1$.}
-\]
-Furthermore, the shapes are independent of the channel been used.
+We now assume for the sake of simplicity that the input grid has spatial shape of
+$a \times a$ grid and the kernel grid has spatial shape of $b \times b$ grid, where
+$a$ and $b$ are odd integers with
+% \[
+% a = b \cdot N \quad \text{for some $N > 1$}
+% \]
+and that these numbers are independent of the channel index. We also denote by $c$
+and $d$ the number of input and output channels in the layer.
 
-Output of the convolutional layer at pixel $(j, k)$ of the channel $i$ is
+% In the following we assume that that input gird has spatial shape of $a \times a$
+% and the convolution kernel $K$ has the spatial shape of $b \times b$.
+% Both of these are positive integers and
+% \[
+% a = b n \quad \text{for some $n > 1$.}
+% \]
+% Furthermore, the shapes are independent of the channel been used.
+
+Output of the convolutional layer at pixel $(j, k)$ of the channel $i$ is now
+defined as
 \[
-Z_{i, j, k} = \sum_{l, m, n} V_{l, j + m -1, k + n -1} K_{i, l, m, n}
+Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^a \sum_{n=1}^b
+V_{l, j + m -1, k + n -1} K_{i, l, m, n}
 \]
 where $K_{i, l, m, n}$ is the weight of the connection from input in channel $j$
-to output in channel $i$, both having row index $k$ and column index $l$. The sum
-is taken over th index set
+to output in channel $i$, with an offset of $k$ rows and $l$ columns between the
+channels.
+
+% The summation is over all values of $l$, $m$ and $n$ for which the tensor
+% indexing operations inside the summation is valid.
+
+Also, the output tensor is only defined when
 \[
-[1, \ldots, ?] \times  [1, \ldots, ?] \times [1, \ldots, ?]
+j + m - 1 \le a \quad \text{and} \quad k + n - 1 \le a
 \]
-
-
- output
-$Z_{i, j, k}$ is only defined when the convolution is valid. This means that
-
-
-With stride:
-
+for all terms in the summation. This is due to the requierment that the kernel fits
+in to the input grid, which now looks different since we are using convolution
+with flipped kernel. Manipulation of these inequalities gives us that
 \[
-Z_{i, j, k} = c(K, V, s) =
-\sum_{l, m, n} V_{l, (j -1)\times s + m, (k-1)\times s + n} K_{i, l, m, n}
+ j \le a - b + 1\quad \text{and} \quad  k \le a - b + 1
 \]
-*Tiled (optional?)\\
-*Local connections (optional?)\\
-*Formulas, etc.\\
-... traditional fully connected layer can be seen
-as other extreme case, with zero stride and kernel grid size been equal to the
-input grid size.
+Namely, this means that the convolution has shrinked spatial width of the data grid
+from $a$ to $a - b + 1$. This is a problem since it opposes a lmit to the dept of
+the network. It can be however compensated by adding artifiacially zeros to the
+boundary of the input layer. Then we can prevent the sizes of the layers shrinking
+and obtain deeper networks. This method is known as \emph{zero padding}.
+
+The convolution can also be choosen to accept input from a periodical subgrid.
+This is known as convolution with a stride $s$, where requier that
+\[
+a = s \cdot M \quad \text{for some $M > 1$}
+\]
+and defined it as
+\[
+Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^M \sum_{n=1}^M
+V_{l, (j -1)\times s + m, (k-1)\times s + n} K_{i, l, m, n}
+\]
+with the anlogous validicity conditions posed on as before. Similar stride is used
+also for pooling which we define later.
 
 % \subsection{Sparse Connectivity and Parameter Sharing}
 % As mentioned earlier, in a convolutional layer there are fewer connections
@@ -249,11 +279,14 @@ In some case however, for example if objects in a set of images are known to be
 in the center of the images, it may be more convinient to allow the biases to vary
 with respect to location.
 
-\subsection{(Max) Pooling}
+\subsection{Pooling}
 Typically pooling is used for down sampling, which means that the grid size of
-the data is reduced.
+the data is reduced. Method that is most often used nowadays is max pooling. ...
+
+Example in 2-D, max pooling with $2\times2$ kernel and $s = 2$ stride:
 \[
-\begin{array}{c|c|c|c}
+\begin{array}{|c|c|c|c|}
+  \hline
   0 & 1 & 3 & 9\\
   \hline
   4 & 8 & 6 & 2\\
@@ -261,15 +294,18 @@ the data is reduced.
   7 & 4 & 2 & 0\\
   \hline
   4 & 3 & 5 & 1\\
+  \hline
  \end{array}
- \quad \mapsto \quad
- \begin{array}{c|c}
+ \quad \stackrel{\text{Pooling}}{\longrightarrow} \quad
+ \begin{array}{|c|c|}
+   \hline
    8 & 9\\
    \hline
-   7 & 5
+   7 & 5\\
+   \hline
   \end{array}
  \]
-\begin{center}Example in 2-D: max pooling with $2\times2$ kernel and stride = 2.\end{center}
+% \begin{center}Example in 2-D: max pooling with $2\times2$ kernel and stride = 2.\end{center}
 Another benefit of max pooling with down sampling is that it is not so sensitive
 to small translations. If we take to grids, which are small translations of each
 other, and compare the pooled grid, we see that many of the values are the same.
@@ -277,42 +313,50 @@ other, and compare the pooled grid, we see that many of the values are the same.
 \text{Pic: Without Shift, Shifted}
 \]
 
-\subsection{Zero Padding}
-One drawback of using convolutional layers is that they shrink size of the data
-grid, which opposes limit to the depth of the network. This can be compansated by
-adding artifiacially zeros to the boundary of the input layer. This way we can
-prevent the sizes of the layers shrinking and obtain deeper networks.
+% \subsection{Zero Padding}
+% As we saw earlier, one drawback of using convolutional layers is that they shrink
+% size of the data grid, which opposes limit to the depth of the network. This can
+% be compensated by adding artifiacially zeros to the boundary of the input layer.
+% This way we can prevent the sizes of the layers shrinking and obtain deeper networks.
+% The method is known as zero padding.
 % \[
 % \text{Pic: 1-D network with zero pading and same size layers}
 % \]
 
-The method discribed above is known as zero padding. One way to do it is to add
-just enough zeros that the layer sizes stays the same. Other more extreme option
-is to add so many zeros that the convolution can visit every neuron $k$ times,
-where $k$ is the size of the convolution kernel.
-\[
-\text{Pic: 2-D, original layer and layer with minimal padding}
-\]
-\[
-\text{Pic: 2-D, original layer and layer with maximal padding}
-\]
-One may notice that zero padding makes the outputs near the boundary to have less
-information from the inputs, especially if there is maximal amount of padding
-used. This may be compensated to some extend if the biases are not shared.
+% The method discribed above is known as zero padding. One way to do it is to add
+% just enough zeros that the layer sizes stays the same after the concolution.
+% Namely, if the convolution kernel has spatial width of $k$, then we add to the
+% boundary a layer of width $(k - 1)/2$ of zeros.
+% Other more extreme option
+% is to add so many zeros that the convolution can visit every neuron $k$ times,
+% where $k$ is the size of the convolution kernel.
+% \[
+% \text{Pic: 2-D, original layer and layer with minimal padding}
+% \]
+% \[
+% \text{Pic: 2-D, original layer and layer with maximal padding}
+% \]
+% One may notice that zero padding makes the outputs near the boundary to have less
+% information from the inputs, especially if there is maximal amount of padding
+% used. This may be compensated to some extend if the biases are not shared.
 
 \subsection{Receptive Field}
 For a given node the nodes in the previous layers which are directly connected
 to it are known as receptive field.
 
-Although the receptive field for single convolutional layer is small due to sparse
-connections, it grows when there are more layers added to the network and it can
-even cover the whole input grid if the network has enough layers.
+Although the receptive field for a node in a early layers of the network is small
+due to sparse connections, it is larger for nodes in the deeper layers of the network
+and it can even cover the whole input image if the network has enough layers.
 
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
 
-\subsection{Learned Invariances and Feature Detectors}
+\subsection{Learned Invariances}
 Examples, Explanation (no pics)
+
+\subsection{Training}
+
+
 % \subsection{Pooling with Down Sampling}
 
 % \subsection{Examples of Architectures}
@@ -321,16 +365,16 @@ Examples, Explanation (no pics)
 %
 % ...Explanations and pics...
 
-\subsection{Further Topics (Optional ?/ rename as Training?)}
-In this last section we will mention briefly some of the topics presented in the
-Chapter 9 of the Deep Learning book that we have not yet covered.
-
-One thing we did not yet cover is the training of convolutional network. It turns
-out that ... (in order to keep this text concise ... OR: since we assume the reader
-to be familiar with basics of regular networks ...) we skip this.
-
-An other topic of possible further interest is the use of recurent sturctures in
-a convolutional network, for this we also refer to consult the Deep Learning book.
+% \subsection{Further Topics (Optional ?/ rename as Training?)}
+% In this last section we will mention briefly some of the topics presented in the
+% Chapter 9 of the Deep Learning book that we have not yet covered.
+%
+% One thing we did not yet cover is the training of convolutional network. It turns
+% out that ... (in order to keep this text concise ... OR: since we assume the reader
+% to be familiar with basics of regular networks ...) we skip this.
+%
+% An other topic of possible further interest is the use of recurent sturctures in
+% a convolutional network, for this we also refer to consult the Deep Learning book.
 
 %\subsection{Convolution with Strides}
 
