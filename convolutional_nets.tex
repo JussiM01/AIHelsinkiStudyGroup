@@ -12,9 +12,12 @@
   \emph{By: Jussi Martin}
 \end{center}
 \subsection{Preface}
-This post is written for the AI Helsinki study group \emph{Image and Video Statistics}.
-It is based on the Chapter 9 of the book \emph{Deep Learning} by Ian Goodfellow,
-Yoshua Bengio and Aaron Courville, which is under preparation and available
+This blogpost is written for the \emph{Image and Video Statistics} study group
+held by the AIHelsinki Academia. It is based on the Chapter 9 of the book
+\emph{Deep Learning} by Ian Goodfellow, Yoshua Bengio and Aaron Courville, which
+is
+% under preparation and
+available
 online at \url{http://www.deeplearningbook.org}.
 
 We will assume the reader to be familiar with basic components of artificial
@@ -66,15 +69,15 @@ One special property of convolution is that it is commutative, that is
 \[
  (K * I) = (K * I).
 \]
-Which is relatively easy to derive, especially for the discrete cases. Many machine
-learning libraries actually defined convolution as
+Which is relatively easy to derive. Many machine learning libraries actually
+defined convolution as
 \[
 S(i, j) = \sum_m \sum_n I(i + m , j + n) K(m, n),
 \]
 which is also known as cross-correlation or convolution without kernel-flipping.
-It is not commutative, but from practical point of view this dos not make any difference
+It is not commutative, but from practical point of view this dose not make any difference
 since commutativity is not needed and the network can learn its parameters with
-respect to either of these kernels.
+respect to either of these convolutions.
 
 We say that a neural network is convolutional if it uses convolution in at least
 one of its layers.
@@ -91,7 +94,7 @@ presented later.
 
 Typically the first layer in a convolutional network is convolutional. It is followed
 by nonlinearity. Often after this there is some type of pooling layer, usually max
-pooling. This type of structure can be then repeated multiple times. The final layers are
+pooling. This type of structure can then be repeated multiple times. The final layers are
 fully connected and responsible for the one hot encoding of the output.
 
 In the previous scheme the output is an array with one entry equal to one and others
@@ -99,7 +102,6 @@ zero, representing a membership of a given class. Other optional output types co
 be for example, an array with estimated probabilities that the image has an object in
 a given class, a tensor (tensors will be explained in the next section) which tells
 estimated probabilities that a given pixels is part of an object in a given class.
-Specifics of these are not covered in this text.
 
 \subsection{Tensors and Convolutional Layer}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -141,7 +143,7 @@ In the following we assume that that input gird has spatial shape of $a \times a
 and the convolution kernel $K$ has the spatial shape of $b \times b$.
 Both of these are positive integers and
 \[
-a = b N \quad \text{for some $N > 1$.}
+a = b n \quad \text{for some $n > 1$.}
 \]
 Furthermore, the shapes are independent of the channel been used.
 
@@ -150,7 +152,17 @@ Output of the convolutional layer at pixel $(j, k)$ of the channel $i$ is
 Z_{i, j, k} = \sum_{l, m, n} V_{l, j + m -1, k + n -1} K_{i, l, m, n}
 \]
 where $K_{i, l, m, n}$ is the weight of the connection from input in channel $j$
-to output in channel $i$, both having row index $k$ and column index $l$.\\
+to output in channel $i$, both having row index $k$ and column index $l$. The sum
+is taken over th index set
+\[
+[1, \ldots, ?] \times  [1, \ldots, ?] \times [1, \ldots, ?]
+\]
+
+
+ output
+$Z_{i, j, k}$ is only defined when the convolution is valid. This means that
+
+
 With stride:
 
 \[
@@ -267,16 +279,13 @@ other, and compare the pooled grid, we see that many of the values are the same.
 
 \subsection{Zero Padding}
 One drawback of using convolutional layers is that they shrink size of the data
-grid, which opposes limit to the depth of the network.
-\[
-\text{Pic: 1-D network with shrinking layers}
-\]
-This however can be compansated by
-adding zeros to the boundary of each neuron layer. That way we can prevent the
-sizes of the layers shrinking and obtain deeper networks.
-\[
-\text{Pic: 1-D network with zero pading and same size layers}
-\]
+grid, which opposes limit to the depth of the network. This can be compansated by
+adding artifiacially zeros to the boundary of the input layer. This way we can
+prevent the sizes of the layers shrinking and obtain deeper networks.
+% \[
+% \text{Pic: 1-D network with zero pading and same size layers}
+% \]
+
 The method discribed above is known as zero padding. One way to do it is to add
 just enough zeros that the layer sizes stays the same. Other more extreme option
 is to add so many zeros that the convolution can visit every neuron $k$ times,
@@ -341,20 +350,20 @@ a convolutional network, for this we also refer to consult the Deep Learning boo
 
 %\subsection{Gabor-like Learned Kernels (optional)}
 
-\subsection{Links}
-* Our main source:
-
-\url{http://www.deeplearningbook.org}\\
-* Video with very basics of convolutional networks:
-
-\url{https://www.youtube.com/watch?v=JiN9p5vWHDY}\\
-* Video with slightly more advanced level introduction:
-
-\url{https://www.youtube.com/watch?v=FmpDIaiMIeA}\\
-* Video of a conference presentation:
-
-\url{https://www.youtube.com/watch?v=AQirPKrAyDg}
-
-
+% \subsection{Links}
+% * Our main source:
+%
+% \url{http://www.deeplearningbook.org}\\
+% * Video with very basics of convolutional networks:
+%
+% \url{https://www.youtube.com/watch?v=JiN9p5vWHDY}\\
+% * Video with slightly more advanced level introduction:
+%
+% \url{https://www.youtube.com/watch?v=FmpDIaiMIeA}\\
+% * Video of a conference presentation:
+%
+% \url{https://www.youtube.com/watch?v=AQirPKrAyDg}
+%
+%
 
 \end{document}
