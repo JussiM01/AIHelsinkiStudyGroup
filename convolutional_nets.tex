@@ -188,7 +188,7 @@ with flipped kernel. Manipulation of these inequalities gives us that
  j \le a - b + 1\quad \text{and} \quad  k \le a - b + 1
 \]
 Namely, this means that the convolution has shrinked spatial width of the data grid
-from $a$ to $a - b + 1$. This is a problem since it opposes a lmit to the dept of
+from $a$ to $a - b + 1$. This is a problem since it opposes a limit to the dept of
 the network. It can be however compensated by adding artifiacially zeros to the
 boundary of the input layer. Then we can prevent the sizes of the layers shrinking
 and obtain deeper networks. This method is known as \emph{zero padding}.
@@ -315,8 +315,8 @@ Example in 2-D, max pooling with both $s$ and kernel width set to 2:
  \]
 % \begin{center}Example in 2-D: max pooling with $2\times2$ kernel and stride = 2.\end{center}
 
-Benefit of using pooling with down sampling is that it can help the net work
-to learn invariancies with respect to small.....
+% Benefit of using pooling with down sampling is that it can help the net work
+% to learn invariancies with respect to small.....
 
 % \subsection{Zero Padding}
 % As we saw earlier, one drawback of using convolutional layers is that they shrink
@@ -346,7 +346,7 @@ to learn invariancies with respect to small.....
 % used. This may be compensated to some extend if the biases are not shared.
 
 \subsection{Parse Connections}
-It can be now seen that a value of output node of a convolutional or pooling layer
+One may notice that a value of output node of a convolutional or a pooling layer
 is only affected by a set of nodes of the sizes of the kernel of convolution or
 pooling. Similarly, the nodes in the input effect only as many values as the size
 of the kernel (or some times even less if a stride is used). This is in great contrast
@@ -365,10 +365,10 @@ and it can even cover the whole input image if the network has enough layers.
 % \subsection{Max Pooling}
 % Pictures: Without Shift, Shifted
 
-\subsection{Learned Invariances (Include into Pooling?)}
-Examples, (small sift & rotational invariance) Explanation (no pics)
-
-\subsection{Training}
+% \subsection{Learned Invariances (Include into Pooling?)}
+% Examples, (small sift & rotational invariance) Explanation (no pics)
+%
+% \subsection{Training}
 
 
 % \subsection{Pooling with Down Sampling}
