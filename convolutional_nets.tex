@@ -121,11 +121,11 @@ in the ImageNet 2014 Challenge:
   \hline
   max pooling\\
   \hline
-  fully connected, connections 4096\\
+  fully connected, nodes 4096\\
   \hline
-  fully connected, connections 4096\\
+  fully connected, nodes 4096\\
   \hline
-  fully connected, connections 1000\\
+  fully connected, nodes 1000\\
   \hline
   soft-max\\
   \hline
@@ -177,25 +177,26 @@ a = b N \quad \text{for some $N > 1$}.
 \]
 We also denote by $c$ and $d$ the number of input and output channels in the layer.
 
-Output of the convolutional layer at pixel $(j, k)$ of the channel $i$ is now
-defined as
+Output tensor $Z$ of the convolutional layer at pixel $(j, k)$ of the channel $i$
+is now defined by
 \[
 Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^a \sum_{n=1}^b
 V_{l, j + m -1, k + n -1} K_{i, l, m, n}
 \]
-where $K_{i, l, m, n}$ is the weight of the connection from input in channel $j$
-to output in channel $i$, with an offset of $k$ rows and $l$ columns between the
-channels.
+where $V$ is the input tensor with $l$ as its channel index, $K$ is the weight tensor with
+$K_{i, l, m, n}$ representing the weight of the connection from node in output
+channel $i$ to node in input channel $l$, with an offset of $m$ rows and $n$ columns
+between the channels.
 
-Also, the output tensor is only defined when
+Also, the output node $Z_{i, j, k}$ is only defined when
 \[
-j + m - 1 \le a \quad \text{and} \quad k + n - 1 \le a
+1 \le j + m - 1 \le a \quad \text{and} \quad 1 \le k + n - 1 \le a
 \]
 for all terms in the summation. This is due to the requirement that the kernel fits
 in to the input grid, which now looks different since we are using convolution
-without kernel-flipping. Manipulation of these inequalities gives us that
+without kernel-flipping. Since $m$ and $n$ are at most $b$, we see that
 \[
- j \le a - b + 1\quad \text{and} \quad  k \le a - b + 1
+1 = \max\{2 - b, 1\} \le j \le a - b + 1\quad \text{and the same way} \quad 1 \le k \le a - b + 1.
 \]
 Namely, this means that the convolution has shrunk the spatial width of the data grid
 from $a$ to $a - b + 1$. This is a problem since it opposes a limit to the depth of
@@ -208,7 +209,7 @@ This is known as convolution with a stride $s$, where we require that
 \[
 a = s M \quad \text{for some $M > 1$}
 \]
-and defined it as
+and defined by
 \[
 Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^M \sum_{n=1}^M
 V_{l, (j -1) s + m, (k-1) s + n} K_{i, l, m, n}
@@ -234,12 +235,12 @@ Hyperbolic tangent function also known as \emph{tanh}, defined by
 f(x) = \frac{\exp(x) - \exp(-x)}{\exp(x) + \exp(-x)}.
 \]
 
-A nonlinearity is applied after convolutional layer. Its output is defined as
+A nonlinearity is applied after convolutional layer. Its output tensor $T$ is defined by
 \[
 T_{i,j,k} = f(Z_{i, j, k} + b_{i,j,k})
 \]
-where $Z_{i, j, k}$ is the output of the convolution and $b_{i, j, k}$ is the bias
-unit, which is often shared between units in the same channel, that is
+where $Z$ is the output tensor of the convolutional layer and $b_{i, j, k}$ is a
+bias unit, which is often shared between units in the same channel, that is
 \[
 b_{i, j, k} = b_i \quad \text{for all $j$ and $k$}
 \]
@@ -252,14 +253,14 @@ respect to location.
 \subsection{Pooling}
 Typically pooling is used for down sampling, which means that the grid size of
 the data is reduced. Method that is most often used nowadays is max pooling and
-its output is defined as
+its output tensor $T$ is defined by
 \[
-T_{j,k} = \max \{V_{s j + \alpha, s k + \beta} |
+T_{i, j,k} = \max \{V_{i, s j + \alpha, s k + \beta} |
 \text{ for $(\alpha, \beta) \in \{ 1,\ldots, b\} \times  \{ 1,\ldots, b\} $} \}
 \]
-where $s$ is the stride, $b$ is the width of the max pooling kernel and we have
-omitted the channel index for the sake of clarity. Often max pooling is used with
-$s = b > 1$, which has the effect of shrinking the data grid by factor $s$.
+where $s$ is the stride, $b$ is the spatial width of the max pooling kernel. Often
+max pooling is used with $s = b > 1$, which has the effect of shrinking the data
+grid by factor $s$.
 
 Example in 2-D, max pooling with both $s$ and kernel width set to 2:
 \[
@@ -284,7 +285,7 @@ Example in 2-D, max pooling with both $s$ and kernel width set to 2:
   \end{array}
  \]
 
-\subsection{Parse Connections}
+\subsection{Sparse Connections}
 One may notice that an output node in a convolutional or a pooling layer is only
 connected to a set of nodes of the size of the convolution or pooling kernel.
 Similarly, the input nodes are connected only as many output nodes as is the size
