@@ -180,7 +180,7 @@ We also denote by $c$ and $d$ the number of input and output channels in the lay
 Output tensor $Z$ of the convolutional layer at pixel $(j, k)$ of the channel $i$
 is now defined by
 \[
-Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^a \sum_{n=1}^b
+Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^b \sum_{n=1}^b
 V_{l, j + m -1, k + n -1} K_{i, l, m, n}
 \]
 where $V$ is the input tensor with $l$ as its channel index, $K$ is the weight tensor with
@@ -211,7 +211,7 @@ a = s M \quad \text{for some $M > 1$}
 \]
 and defined by
 \[
-Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^M \sum_{n=1}^M
+Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^b \sum_{n=1}^b
 V_{l, (j -1) s + m, (k-1) s + n} K_{i, l, m, n}
 \]
 with the same type of validity conditions required as before. Similar stride is used
@@ -288,7 +288,7 @@ Example in 2-D, max pooling with both $s$ and kernel width set to 2:
 \subsection{Sparse Connections}
 One may notice that an output node in a convolutional or a pooling layer is only
 connected to a set of nodes of the size of the convolution or pooling kernel.
-Similarly, the input nodes are connected only as many output nodes as is the size
+Similarly, the input nodes are connected to only as many output nodes as is the size
 of the kernel (or some times even less if a stride is used). This is in great contrast
 to fully connected layers where every node in the input is connected to every node
 in the output nodes.
