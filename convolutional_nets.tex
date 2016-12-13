@@ -22,12 +22,12 @@ neural networks, such as weights and biases. Some mathematical preliminaries are
 introduced in the text. Our goal is to introduce basics of convolutional neural
 networks and explain some of their properties.
 
-Convolutional networks are particularlly usefull in image classification, since
-they can learn to be unsensitive to local translations in the input. For example,
-convolutional network can learn to classify image of a face correctly dispite
+Convolutional networks are particularly useful in image classification, since
+they can learn to be invariant to local translations in the input. For example,
+convolutional network can learn to classify image of a face correctly despite
 individual faces having slight variation in the positions of facial features.
 
-Besides the classificational aspescts, convolution is also effective in the sence
+Besides the classificational aspects, convolution is also effective in the sense
 that it uses fewer connections and shared parameters, which reduces the
 computational cost and memory requirements and improves the statistical efficiency.
 In deep networks this difference is significant.
@@ -71,13 +71,13 @@ the output is passed trough a nonlinearity, at this point there might be a pooli
 layer. This type of structure can then be repeated multiple times. The final layers
 are usually fully connected.
 
-Here is an example convolutional network, which was one of the networks used by
-the VGG team in the ImageNet 2014 Challenge:
+Here is an example network, which was one of the networks used by the VGG team
+in the ImageNet 2014 Challenge:
 
 \begin{center}
 \begin{tabular}{|c|}
   \hline
-  Input 224 $\times$ 224 RGB image\\
+  input, 224 $\times$ 224 RGB image\\
   \hline
   convolutional, kernel width 3, channels 64\\
   \hline
@@ -131,8 +131,9 @@ the VGG team in the ImageNet 2014 Challenge:
   \hline
 \end{tabular}
 \end{center}
-All the hidden layers are followed by ReLu (nonlinearity, defined later in this text),
-which is not shown for the sake of brevity.
+All the hidden layers are followed by ReLu (defined later),
+which is not shown for the sake of brevity. For details, see
+\url{https://arxiv.org/pdf/1409.1556.pdf}.
 
 \subsection{Tensors and Convolutional Layer}
 We adopt the Deep Learning book's convention of defining tensors as
@@ -146,7 +147,7 @@ of real numbers, 2-D tensors are arrays
 \[
 T = ((T_{1,1}, \ldots, T_{1,n}), \ldots (T_{m,1}, \ldots, T_{m,n}))
 \]
-of arrays of real numbers (with mutually equal lenght), and so on.
+of arrays of real numbers (with mutually equal length), and so on.
 
 Basically our tensors can be viewed as D-dimensional grids of real numbers.
 Example in 2-D:
@@ -172,7 +173,7 @@ We now assume for the sake of simplicity that the input grid has spatial shape o
 $a \times a$ grid and the kernel grid has spatial shape of $b \times b$ grid, where
 $a$ and $b$ are independent of the channel index and
 \[
-a = b \cdot N \quad \text{for some $N > 1$}.
+a = b N \quad \text{for some $N > 1$}.
 \]
 We also denote by $c$ and $d$ the number of input and output channels in the layer.
 
@@ -190,29 +191,29 @@ Also, the output tensor is only defined when
 \[
 j + m - 1 \le a \quad \text{and} \quad k + n - 1 \le a
 \]
-for all terms in the summation. This is due to the requierment that the kernel fits
+for all terms in the summation. This is due to the requirement that the kernel fits
 in to the input grid, which now looks different since we are using convolution
 without kernel-flipping. Manipulation of these inequalities gives us that
 \[
  j \le a - b + 1\quad \text{and} \quad  k \le a - b + 1
 \]
-Namely, this means that the convolution has shrinked spatial width of the data grid
+Namely, this means that the convolution has shrunk the spatial width of the data grid
 from $a$ to $a - b + 1$. This is a problem since it opposes a limit to the depth of
-the network. It can be however compensated by adding artifiacially zeros to the
-boundary of the input layer. This way we can prevent the sizes of the layers shrinking
-and obtain deeper networks. The method is known as \emph{zero padding}.
+the network. It can however be compensated by adding artificially zeros to the
+boundary of the input layer. This way it is possible to obtain deeper networks. The
+method is known as \emph{zero padding}.
 
-The convolution can also be choosen to accept input from a periodical subgrid.
-This is known as convolution with a stride $s$, where we requier that
+The convolution can also be chosen to accept input from a periodical sub-grid.
+This is known as convolution with a stride $s$, where we require that
 \[
-a = s \cdot M \quad \text{for some $M > 1$}
+a = s M \quad \text{for some $M > 1$}
 \]
 and defined it as
 \[
 Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^M \sum_{n=1}^M
-V_{l, (j -1)\times s + m, (k-1)\times s + n} K_{i, l, m, n}
+V_{l, (j -1) s + m, (k-1) s + n} K_{i, l, m, n}
 \]
-with the analogous validicity conditions posed on as before. Similar stride is used
+with the same type of validity conditions required as before. Similar stride is used
 also for pooling which we define later.
 
 \subsection{Nonlinearities}
@@ -242,23 +243,23 @@ unit, which is often shared between units in the same channel, that is
 \[
 b_{i, j, k} = b_i \quad \text{for all $j$ and $k$}
 \]
-where $j$ and $k$ are the pixel indicies and $i$ is the channel index.
+where $j$ and $k$ are the pixel indices and $i$ is the channel index.
 
 In some case, for example, if objects in a set of images are known to be in the
-center of the images, it may be more convinient to allow the biases to vary with
+center of the images, it may be more convenient to allow the biases to vary with
 respect to location.
 
 \subsection{Pooling}
 Typically pooling is used for down sampling, which means that the grid size of
 the data is reduced. Method that is most often used nowadays is max pooling and
-it output is defined as
+its output is defined as
 \[
-T_{j,k} = \max \{V_{s \cdot j + \alpha, s \cdot k + \beta} |
-\text{ for $(\alpha, \beta) \in [1,\ldots b] \times  [1,\ldots b]$} \}
+T_{j,k} = \max \{V_{s j + \alpha, s k + \beta} |
+\text{ for $(\alpha, \beta) \in \{ 1,\ldots, b\} \times  \{ 1,\ldots, b\} $} \}
 \]
 where $s$ is the stride, $b$ is the width of the max pooling kernel and we have
-omited the channel index for the sake of clarity. Often max pooling is used with
-$s = b > 1$, which has the efect of shrinking the data grid by factor $s$.
+omitted the channel index for the sake of clarity. Often max pooling is used with
+$s = b > 1$, which has the effect of shrinking the data grid by factor $s$.
 
 Example in 2-D, max pooling with both $s$ and kernel width set to 2:
 \[
@@ -285,7 +286,7 @@ Example in 2-D, max pooling with both $s$ and kernel width set to 2:
 
 \subsection{Parse Connections}
 One may notice that an output node in a convolutional or a pooling layer is only
-conneected to a set of nodes of the size of the convolution or pooling kernel.
+connected to a set of nodes of the size of the convolution or pooling kernel.
 Similarly, the input nodes are connected only as many output nodes as is the size
 of the kernel (or some times even less if a stride is used). This is in great contrast
 to fully connected layers where every node in the input is connected to every node
