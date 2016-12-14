@@ -171,11 +171,8 @@ in different ways in parallel.
 
 We now assume for the sake of simplicity that the input grid has spatial shape of
 $a \times a$ grid and the kernel grid has spatial shape of $b \times b$ grid, where
-$a$ and $b$ are independent of the channel index and
-\[
-a = b N \quad \text{for some $N > 1$}.
-\]
-We also denote by $c$ and $d$ the number of input and output channels in the layer.
+$a$ and $b$ are independent of the channel index. We also denote by $c$ and $d$
+the number of input and output channels in the layer.
 
 Output tensor $Z$ of the convolutional layer at pixel $(j, k)$ of the channel $i$
 is now defined by
@@ -205,11 +202,7 @@ boundary of the input layer. This way it is possible to obtain deeper networks. 
 method is known as \emph{zero padding}.
 
 The convolution can also be chosen to accept input from a periodical sub-grid.
-This is known as convolution with a stride $s$, where we require that
-\[
-a = s M \quad \text{for some $M > 1$}
-\]
-and defined by
+This is known as convolution with a stride $s$ and defined by
 \[
 Z_{i, j, k} = \sum_{l=1}^c \sum_{m = 1}^b \sum_{n=1}^b
 V_{l, (j -1) s + m, (k-1) s + n} K_{i, l, m, n}
